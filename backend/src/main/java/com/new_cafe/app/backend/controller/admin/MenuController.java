@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.new_cafe.app.backend.dto.MenuListRequest;
 import com.new_cafe.app.backend.entity.Menu;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.new_cafe.app.backend.service.MenuService;
+
+import com.new_cafe.app.backend.dto.MenuListRequest;
+import com.new_cafe.app.backend.dto.MenuListResponse;
 
 @RestController
 public class MenuController {
@@ -25,11 +28,13 @@ public class MenuController {
 
     // 목록 조회 데이터 반환
     @GetMapping("/admin/menus")
-    public List<Menu> menu(@RequestParam(name = "cid", required = false) Integer categoryId) {
+    public MenuListResponse menu(MenuListRequest request) {
+        Integer categoryId = request.getCategoryId();
         System.out.println("categoryId : " + categoryId);
 
         // menuService = new NewMenuService();
-        return menuService.getAll(categoryId);
+        List<Menu> menus = menuService.getAll(categoryId);
+        return MenuListResponse.builder().menus(menus).build();
     }
 
     // 상세 조회 데이터 반환

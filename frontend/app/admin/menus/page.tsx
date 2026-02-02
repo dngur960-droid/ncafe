@@ -5,30 +5,27 @@ import { useState } from 'react';
 import CategoryTabs from './_components/CategoryTabs';
 import MenuList from './_components/MenuList';
 import MenusPageHeader from './_components/MenusPageHeader';
-import { mockCategories } from '@/mocks/menuData';
+
 
 export default function MenusPage() {
     // 상태
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    // Lifting State Up
     const [searchQuery, setSearchQuery] = useState('');
-
-    const handleSelectCategory = (category: string | null) => {
-        setSelectedCategory(category);
-    };
+    const [selectedCategory, setSelectedCategory] = useState<number | undefined>(undefined);
 
     return (
         <main>
             {/* 페이지 헤더 */}
             <MenusPageHeader
-                totalCount={0} // 데이터가 하위 컴포넌트로 이동하여 임시로 0 표시
-                soldOutCount={0}
                 searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
+                setSearchQuery={setSearchQuery}
             />
 
             {/* 카테고리 탭 */}
+            {/* Callback Property */}
             <CategoryTabs
-                onSelectCategory={handleSelectCategory}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
             />
 
             {/* 메뉴 그리드 (데이터 로딩 및 관리는 내부에서 수행) */}

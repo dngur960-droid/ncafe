@@ -34,6 +34,12 @@ public class NewCategoryRepository implements CategoryRepository {
                 Category category = new Category(
                         rs.getInt("id"),
                         rs.getString("name"));
+
+                // Category category = Category.builder()
+                // .id(rs.getInt("id"))
+                // .name(rs.getString("name"))
+                // .build();
+
                 list.add(category);
             }
         } catch (SQLException e) {
