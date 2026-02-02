@@ -104,8 +104,13 @@ public class NewMenuRepository implements MenuRepository {
     @Override
     public List<Menu> findAllByCategoryAndSearchQuery(Integer categoryId, String searchQuery) {
         List<Menu> list = new ArrayList<>();
-        String sql = "SELECT * FROM menus WHERE category_id=" + categoryId + " AND kor_name LIKE '%" + searchQuery
-                + "%'";
+        String sql = "SELECT * FROM menus WHERE 1=1";
+
+        if (categoryId != null)
+            sql += " AND category_id=" + categoryId;
+
+        if (searchQuery != null && !searchQuery.isEmpty())
+            sql += " AND kor_name LIKE '%" + searchQuery + "%'";
 
         try {
             try (Connection conn = dataSource.getConnection();
