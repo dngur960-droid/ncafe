@@ -14,8 +14,20 @@ import com.new_cafe.app.backend.repository.NewMenuRepository;
 public class App {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         System.out.println("Hello World");
+        // Menu menu = new Menu2();
 
-        // 사용자한테, 검색어를 입력
+        // Class<?> clazz = Menu.getClass();
+
+        // Field[] fields = clazz.getDeclaredFields();
+
+        // for (Field field : fields) {
+        //     System.out.println(field.getName());
+        // }
+
+        
+
+        // System.out.println(clazz);
+        // // 사용자한테, 검색어를 입력
         String name = "";
         Scanner sc = new Scanner(System.in, "MS949");
         System.out.println("검색어를 입력하세요 : ");

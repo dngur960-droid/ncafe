@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class MenuImage {
     private Long id;
-    private String name;
+    private Long menuId;
+    private String url;
+
+    private Integer sortOrder;
 }

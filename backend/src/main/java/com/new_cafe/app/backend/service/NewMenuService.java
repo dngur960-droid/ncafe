@@ -12,16 +12,26 @@ import com.new_cafe.app.backend.dto.MenuListResponse;
 import com.new_cafe.app.backend.dto.MenuUpdateRequest;
 import com.new_cafe.app.backend.dto.MenuUpdateResponse;
 import com.new_cafe.app.backend.dto.MenuResponse;
+import com.new_cafe.app.backend.entity.Category;
 import com.new_cafe.app.backend.entity.Menu;
+import com.new_cafe.app.backend.entity.MenuImage;
+import com.new_cafe.app.backend.repository.CategoryRepository;
+import com.new_cafe.app.backend.repository.MenuImageRepository;
 import com.new_cafe.app.backend.repository.MenuRepository;
 
 @Service
 public class NewMenuService implements MenuService {
 
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
+    private final CategoryRepository categoryRepository;
+    private final MenuImageRepository menuImageRepository;
 
-    public NewMenuService(MenuRepository menuRepository) {
+    public NewMenuService(MenuRepository menuRepository,
+            CategoryRepository categoryRepository,
+            MenuImageRepository menuImageRepository) {
         this.menuRepository = menuRepository;
+        this.categoryRepository = categoryRepository;
+        this.menuImageRepository = menuImageRepository;
     }
 
     @Override
@@ -32,54 +42,63 @@ public class NewMenuService implements MenuService {
 
     @Override
     public MenuListResponse getMenus(MenuListRequest request) {
-
         Integer categoryId = request.getCategoryId();
         String searchQuery = request.getSearchQuery();
 
-        // Menu <----> MenuResponse ----> [] ----> MenuListResponse
         List<Menu> menus = menuRepository.findAllByCategoryAndSearchQuery(categoryId, searchQuery);
 
         List<MenuResponse> menuResponses = menus
                 .stream()
-                .map(menu -> MenuResponse
-                        .builder()
-                        .id(menu.getId())
-                        .korName(menu.getKorName())
-                        .engName(menu.getEngName())
-                        .description(menu.getDescription())
-                        .price(menu.getPrice())
-                        .categoryName("커피")
-                        .imageSrc("/images/coffee.jpg")
-                        .isAvailable(true)
-                        .isSoldOut(false)
-                        .sortOrder(1)
-                        .createdAt(menu.getCreatedAt())
-                        .updatedAt(menu.getUpdatedAt())
-                        .build())
+                .map(menu -> {
+                    // 카테고리 이름 조회 (findById 사용)
+                    Category category = categoryRepository.findById(menu.getCategoryId());
+                    String categoryName = (category != null) ? category.getName() : "미지정";
+
+                    // 이미지 조회 (기본 이미지 방어)
+                    List<MenuImage> images = menuImageRepository.findAllByMenuId(menu.getId());
+
+                    // images의 개수가 0인 경우는 blank.png 이미지를 사용하도록 하고
+                    String imageSrc = "blank.png";
+                    // images의 개수가 1개 이상인 경우는 srcUrl을 사용하도록 한다
+                    if (images.size() > 0) {
+                        imageSrc = images.get(0).getUrl();
+                    }
+
+                    return MenuResponse.builder()
+                            .id(menu.getId())
+                            .korName(menu.getKorName())
+                            .engName(menu.getEngName())
+                            .description(menu.getDescription())
+                            .price(menu.getPrice())
+                            .categoryName(categoryName)
+                            .imageSrc(imageSrc)
+                            .isAvailable(menu.getIsAvailable() != null ? menu.getIsAvailable() : true)
+                            .isSoldOut(false)
+                            .sortOrder(menu.getSortOrder() != null ? menu.getSortOrder() : 1)
+                            .createdAt(menu.getCreatedAt())
+                            .updatedAt(menu.getUpdatedAt())
+                            .build();
+                })
                 .toList();
 
-        return MenuListResponse
-                .builder()
+        return MenuListResponse.builder()
                 .menus(menuResponses)
-                .total(100)
+                .total(menuResponses.size())
                 .build();
     }
 
     @Override
     public MenuDetailResponse getMenu(Long id) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getMenu'");
     }
 
     @Override
     public MenuUpdateResponse updateMenu(MenuUpdateRequest request) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateMenu'");
     }
 
     @Override
     public void deleteMenu(Long id) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteMenu'");
     }
 

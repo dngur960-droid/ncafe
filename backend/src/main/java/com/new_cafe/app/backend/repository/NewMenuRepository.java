@@ -54,9 +54,10 @@ public class NewMenuRepository implements MenuRepository {
                         rs.getInt("price"),
                         rs.getLong("category_id"),
                         rs.getBoolean("is_available"),
-                        rs.getTimestamp("created_at").toLocalDateTime(),
-                        rs.getTimestamp("updated_at").toLocalDateTime(),
-                        null));
+                        1, // sortOrder (dummy for now)
+                        rs.getTimestamp("created_at") != null ? rs.getTimestamp("created_at").toLocalDateTime() : null,
+                        rs.getTimestamp("updated_at") != null ? rs.getTimestamp("updated_at").toLocalDateTime() : null,
+                        null, null));
             }
 
         } catch (SQLException e) {
@@ -89,9 +90,12 @@ public class NewMenuRepository implements MenuRepository {
                             rs.getInt("price"),
                             rs.getLong("category_id"),
                             rs.getBoolean("is_available"),
-                            rs.getTimestamp("created_at").toLocalDateTime(),
-                            rs.getTimestamp("updated_at").toLocalDateTime(),
-                            null));
+                            1, // sortOrder (dummy)
+                            rs.getTimestamp("created_at") != null ? rs.getTimestamp("created_at").toLocalDateTime()
+                                    : null,
+                            rs.getTimestamp("updated_at") != null ? rs.getTimestamp("updated_at").toLocalDateTime()
+                                    : null,
+                            null, null));
                 }
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -126,12 +130,16 @@ public class NewMenuRepository implements MenuRepository {
                             rs.getInt("price"),
                             rs.getLong("category_id"),
                             rs.getBoolean("is_available"),
-                            rs.getTimestamp("created_at").toLocalDateTime(),
-                            rs.getTimestamp("updated_at").toLocalDateTime(),
-                            null));
+                            1, // sortOrder (dummy)
+                            rs.getTimestamp("created_at") != null ? rs.getTimestamp("created_at").toLocalDateTime()
+                                    : null,
+                            rs.getTimestamp("updated_at") != null ? rs.getTimestamp("updated_at").toLocalDateTime()
+                                    : null,
+                            null, null));
                 }
             }
         } catch (SQLException e) {
+            System.err.println("NewMenuRepository.findAllByCategoryAndSearchQuery SQLException: " + e.getMessage());
             e.printStackTrace();
         }
 

@@ -9,7 +9,17 @@ export interface MenuResponse {
     engName: string,
     description: string,
     price: number,
-    image: string
+    categoryName: string,
+    imageSrc: string,
+    isAvailable: boolean,
+    isSoldOut: boolean,
+    sortOrder: number,
+    createdAt: string,
+    updatedAt: string,
+}
+export interface MenuListResponse {
+    menus: MenuResponse[],
+    total: number;
 }
 
 export function useMenus(selectedCategory: number | undefined, searchQuery: string | undefined) {
@@ -27,7 +37,7 @@ export function useMenus(selectedCategory: number | undefined, searchQuery: stri
 
             const params = url.searchParams;
             if (selectedCategory) {
-                params.set('cid', selectedCategory.toString());
+                params.set('categoryId', selectedCategory.toString());
             }
             if (searchQuery) {
                 params.set('searchQuery', searchQuery);
