@@ -6,14 +6,12 @@ import { MenuImage } from '@/types';
 import { ImageIcon } from 'lucide-react';
 import styles from './MenuImages.module.css';
 
-interface MenuImagesProps {
-    images: MenuImage[];
-    altText: string;
-}
 
-export default function MenuImages({ images, altText }: MenuImagesProps) {
-    const primaryImage = images.find(img => img.isPrimary) || images[0];
-    const [selectedImage, setSelectedImage] = useState<MenuImage | undefined>(primaryImage);
+export default function MenuImages() {
+
+    let images: MenuImage[] = [];
+    let altText: string = "";
+    let selectedImage: MenuImage | undefined = images[0];
 
     if (!images || images.length === 0) {
         return (
@@ -58,7 +56,6 @@ export default function MenuImages({ images, altText }: MenuImagesProps) {
                     <button
                         key={image.id}
                         className={styles.thumbnailWrapper}
-                        onClick={() => setSelectedImage(image)}
                         style={{
                             borderColor: selectedImage?.id === image.id ? 'var(--color-primary-500)' : undefined
                         }}
