@@ -6,7 +6,10 @@ import { useMenuDetail } from './useMenuDetail';
 
 export default function MenuDetailInfo({ id }: { id: number }) {
 
+    console.log('id : ' + id);
     const { menu } = useMenuDetail(id);
+
+    console.log(menu);
 
     return (
         <section className={styles.card}>

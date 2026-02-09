@@ -11,6 +11,8 @@ import com.new_cafe.app.backend.dto.MenuListRequest;
 import com.new_cafe.app.backend.dto.MenuListResponse;
 import com.new_cafe.app.backend.dto.MenuUpdateRequest;
 import com.new_cafe.app.backend.dto.MenuUpdateResponse;
+import com.new_cafe.app.backend.dto.MenuImageListResponse;
+import com.new_cafe.app.backend.dto.MenuImageResponse;
 import com.new_cafe.app.backend.dto.MenuResponse;
 import com.new_cafe.app.backend.entity.Menu;
 import com.new_cafe.app.backend.repository.CategoryRepository;
@@ -91,8 +93,18 @@ public class NewMenuService implements MenuService {
 
     @Override
     public MenuDetailResponse getMenu(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMenu'");
+        Menu menu = menuRepository.findById(id);
+        MenuDetailResponse response = MenuDetailResponse.builder()
+                .id(menu.getId())
+                .korName(menu.getKorName())
+                .engName(menu.getEngName())
+                .description(menu.getDescription())
+                .price(menu.getPrice())
+                .categoryName(categoryRepository.findById(menu.getCategoryId()).getName())
+                .isAvailable(menu.getIsAvailable())
+                .createdAt(menu.getCreatedAt())
+                .build();
+        return response;
     }
 
     @Override
@@ -105,6 +117,27 @@ public class NewMenuService implements MenuService {
     public void deleteMenu(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteMenu'");
+    }
+
+    @Override
+    public MenuImageListResponse getMenuImages(Long id) {
+        List<MenuImage> images = menuImageRepository.findAllByMenuId(id);
+        Menu menu = menuRepository.findById(id);
+
+        List<MenuImageResponse> imageResponses = images.stream()
+                .map(image -> MenuImageResponse.builder()
+                        .id(image.getId())
+                        .menuId(image.getMenuId())
+                        .srcUrl(image.getSrcUrl())
+                        .createdAt(image.getCreatedAt())
+                        .sortOrder(image.getSortOrder())
+                        .altText(menu.getKorName())
+                        .build())
+                .toList();
+
+        return MenuImageListResponse.builder()
+                .images(imageResponses)
+                .build();
     }
 
 }

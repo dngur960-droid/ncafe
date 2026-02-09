@@ -5,7 +5,35 @@ import styles from './MenuOptions.module.css';
 
 
 export default function MenuOptions() {
-    let options: MenuOption[] = [];
+    let options: MenuOption[] = [{
+        id: 1,
+        name: '크기',
+        type: 'single',
+        required: true,
+        items: [
+            { id: 1, name: 'small', priceDelta: 0 },
+            { id: 2, name: 'large', priceDelta: 0 },
+        ]
+    }, {
+        id: 2,
+        name: '샷 추가',
+        type: 'multiple',
+        required: false,
+        items: [
+            { id: 1, name: '샷 추가', priceDelta: 0 },
+            { id: 2, name: '휘핑 추가', priceDelta: 0 },
+        ]
+    },
+    {
+        id: 3,
+        name: '온도',
+        type: 'single',
+        required: false,
+        items: [
+            { id: 1, name: 'hot', priceDelta: 0 },
+            { id: 2, name: 'ice', priceDelta: 0 },
+        ]
+    }];
     if (!options || options.length === 0) {
         return (
             <section className={styles.card}>
