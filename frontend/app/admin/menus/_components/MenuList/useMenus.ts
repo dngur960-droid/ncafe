@@ -33,7 +33,7 @@ export function useMenus(selectedCategory: number | undefined, searchQuery: stri
 
         const fetchMenus = async () => {
 
-            const url = new URL('http://localhost:8080/admin/menus');
+            const url = new URL('http://localhost:8080/api/v1/admin/menus');
 
             const params = url.searchParams;
             if (selectedCategory) {
