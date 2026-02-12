@@ -3,6 +3,7 @@ package com.new_cafe.app.backend.service;
 import com.new_cafe.app.backend.dto.MenuCreateRequest;
 import com.new_cafe.app.backend.dto.MenuCreateResponse;
 import com.new_cafe.app.backend.dto.MenuDetailResponse;
+import com.new_cafe.app.backend.dto.MenuImageListResponse;
 import com.new_cafe.app.backend.dto.MenuListRequest;
 import com.new_cafe.app.backend.dto.MenuListResponse;
 import com.new_cafe.app.backend.dto.MenuUpdateRequest;
@@ -20,5 +21,9 @@ public interface MenuService {
 
     MenuUpdateResponse updateMenu(MenuUpdateRequest request);
 
+<<<<<<< HEAD
     MenuImageListResponse getMenuImages(Long menuId);
+=======
+    MenuImageListResponse getMenuImages(Long id);
+>>>>>>> acd0828dfdf61b419e0c5a38f70f4ab06fe7708e
 }

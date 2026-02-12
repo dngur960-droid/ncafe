@@ -17,20 +17,17 @@ export interface MenuResponse {
     createdAt: string,
     updatedAt: string,
 }
+
 export interface MenuListResponse {
     menus: MenuResponse[],
-    total: number;
+    total: number,
 }
+
 
 export function useMenus(selectedCategory: number | undefined, searchQuery: string | undefined) {
     const [menus, setMenus] = useState<MenuResponse[]>([]);
 
     useEffect(() => {
-        console.log("=============================");
-        console.log(selectedCategory);
-        console.log(searchQuery);
-        console.log("=============================");
-
         const fetchMenus = async () => {
 
             const url = new URL(`/api/admin/menus`, window.location.origin);
@@ -49,9 +46,7 @@ export function useMenus(selectedCategory: number | undefined, searchQuery: stri
                     throw new Error('Failed to fetch menus');
                 }
                 const data = await response.json();
-                console.log("-------------------------------------------------")
-                console.log(data);
-                console.log("-------------------------------------------------")
+
                 setMenus(data.menus);
 
                 // 백엔드 데이터를 프론트엔드 Menu 타입으로 변환

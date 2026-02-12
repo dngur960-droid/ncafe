@@ -7,6 +7,8 @@ import com.new_cafe.app.backend.entity.Menu;
 public interface MenuRepository {
     List<Menu> findAll();
 
+    Menu findById(Long id);
+
     List<Menu> findAllByName(String name);
 
     List<Menu> findAllByCategoryId(Integer categoryId);
