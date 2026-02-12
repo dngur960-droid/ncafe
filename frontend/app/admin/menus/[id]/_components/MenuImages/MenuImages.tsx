@@ -50,7 +50,7 @@ export default function MenuImages({ menuId }: { menuId: number }) {
             <div className={styles.primaryImageWrapper}>
                 {selectedImage && (
                     <Image
-                        src={`/api/v1/${selectedImage.srcUrl}`}
+                        src={`/images/${selectedImage.srcUrl}`}
                         alt="상세 이미지"
                         fill
                         className={styles.primaryImage}
