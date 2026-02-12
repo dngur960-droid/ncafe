@@ -2,16 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
     if (process.env.NODE_ENV === 'development') {
-      return [{
-        source: '/api/:path*',
-        destination: `${apiUrl}/api/:path*`,
-      },
-      {
-        source: '/upload/:path*',
-        destination: `${apiUrl}/upload/:path*`,
-      },
+      return [
+        {
+          source: '/api/:path*',
+          destination: 'http://localhost:8080/api/:path*',
+        },
+        {
+          source: '/images/:path*',
+          destination: 'http://localhost:8080/:path*',
+        },
       ];
     }
     return [];

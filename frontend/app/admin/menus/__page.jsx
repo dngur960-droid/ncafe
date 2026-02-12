@@ -18,8 +18,8 @@ export default function MenusPage() {
         // ${process.env.NEXT_PUBLIC_API_URL}/admin/menus
         const fetchMenus = async () => {
 
-            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-            const url = new URL(`${baseUrl}/admin/menus`);
+            const baseUrl = '';
+            const url = new URL(`${baseUrl}/api/v1/admin/menus`, window.location.origin);
 
             const params = url.searchParams;
             if (category) {

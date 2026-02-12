@@ -23,6 +23,15 @@ export default function MenuImages() {
     if (loading) return <div className={styles.loading}>이미지 로딩 중...</div>;
     // 에러 발생 시에도 빈 상태를 보여줄 수 있으므로 null 반환보다는 UI 유지
 
+    // 이미지 기본 경로 (next.config.ts의 rewrites 설정에 맞춤)
+    const baseUrl = '/images';
+
+    const getImageUrl = (url: string) => {
+        if (!url) return '';
+        if (url.startsWith('http')) return url;
+        return `${baseUrl}/${url}`;
+    };
+
     return (
         <section className={styles.card}>
             <h2 className={styles.sectionTitle}>
@@ -33,7 +42,7 @@ export default function MenuImages() {
             <div className={styles.primaryImageWrapper}>
                 {displayImage ? (
                     <Image
-                        src={displayImage.url}
+                        src={getImageUrl(displayImage.url)}
                         alt={displayImage.altText || `${menuName} 대표 이미지`}
                         fill
                         className={styles.primaryImage}
@@ -54,7 +63,7 @@ export default function MenuImages() {
                         onClick={() => setSelectedImage(image)}
                     >
                         <Image
-                            src={image.url}
+                            src={getImageUrl(image.url)}
                             alt={image.altText || `${menuName} 이미지`}
                             fill
                             className={styles.thumbnailImage}

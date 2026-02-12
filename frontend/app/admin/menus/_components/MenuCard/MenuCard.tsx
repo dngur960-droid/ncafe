@@ -12,7 +12,7 @@ interface MenuCardProps {
 
 
 export default function MenuCard({ menu }: MenuCardProps) {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const baseUrl = '/images'; // 이미지 경로는 rewrite 규칙('/images/*')을 따름
 
     return (
         <div className={styles.card}>
