@@ -1,66 +1,105 @@
+
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./page.module.css";
+import { MoveRight, MapPin, Phone, ChefHat } from "lucide-react";
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+      {/* Header (Transparent overlay) */}
+      <header className={styles.header}>
+        <div className={styles.logo}>
+          NCAFE <span style={{ color: '#22c55e' }}>.</span>
+        </div>
+
+        <nav className={styles.nav}>
+          <Link href="#" className={styles.navItem}>NCAFE</Link>
+          <Link href="/menu" className={styles.navItem}>MENU</Link>
+          <Link href="#" className={styles.navItem}>EVENT</Link>
+          <Link href="/admin/menus" className={styles.navItem}>STORE</Link>
+          <Link href="#" className={styles.navItem}>FRANCHISE</Link>
+        </nav>
+
+        <div className={styles.topMenu}>
+          <Link href="#">HOME</Link>
+          <Link href="#">SIGN UP</Link>
+          <Link href="#">LOGIN</Link>
+          <Link href="#">SITEMAP</Link>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className={styles.hero}>
+        <div className={styles.heroBackground}>
+          <Image
+            src="/images/cafe_hero_topdown.png"
+            alt="Cafe Top Down View"
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+          />
+        </div>
+        <div className={styles.heroOverlay}></div>
+
+        <div className={styles.heroContent}>
+          <span className={styles.heroTag}>COFFEE & DESSERT</span>
+          <h1 className={styles.heroTitle}>
+            NCAFE BAKERY
+          </h1>
+          <p className={styles.heroSubtitle}>
+            앤카페는 엄선된 친환경 재료만을 사용합니다.
           </p>
+
+          <div className={styles.heroDots}>
+            <div className={`${styles.dot} ${styles.dotActive}`}></div>
+            <div className={styles.dot}></div>
+            <div className={styles.dot}></div>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      </section>
+
+      {/* Bottom Banners overlapping Hero */}
+      <div className={styles.bannerContainer}>
+        {/* Box 1: Location */}
+        <div className={`${styles.bannerBox} ${styles.boxLocation}`}>
+          <p>찾아오시는 길</p>
+          <h3>Location</h3>
+          <div className={styles.heroDots}>
+            <div className={`${styles.dot} ${styles.dotActive}`}></div>
+            <div className={styles.dot}></div>
+            <div className={styles.dot}></div>
+          </div>
+        </div>
+
+        {/* Box 2: Menu */}
+        <Link href="/menu" className={`${styles.bannerBox} ${styles.boxMenu}`}>
+          <div className={styles.boxMenuBackground}>
             <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/images/cafe_breakfast_toast.png"
+              alt="Breakfast Menu"
+              fill
+              style={{ objectFit: 'cover' }}
             />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+          <div className={styles.boxMenuOverlay}></div>
+          <span className={styles.menuBorderBox}>
+            메뉴안내
+          </span>
+        </Link>
+
+        {/* Box 3: Customer */}
+        <div className={`${styles.bannerBox} ${styles.boxCustomer}`}>
+          <div className={styles.customerTitle}>창업문의</div>
+          <p>Customer Center</p>
+          <div className={styles.customerPhone}>1544-0000</div>
+          <div className={styles.customerIcon}>
+            <ChefHat size={48} color="#ddd" strokeWidth={1} />
+          </div>
         </div>
-      </main>
+      </div>
+
     </div>
   );
 }

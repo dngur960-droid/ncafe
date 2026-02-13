@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       return [
         {
           source: '/api/:path*',
-          destination: 'http://localhost:8080/api/:path*',
+          destination: 'http://localhost:8080/:path*',
         },
         {
           source: '/images/:path*',
@@ -28,11 +28,6 @@ const nextConfig: NextConfig = {
         hostname: 'localhost',
         port: '8080',
       },
-      ...(process.env.NEXT_PUBLIC_API_URL ? [{
-        protocol: new URL(process.env.NEXT_PUBLIC_API_URL).protocol.replace(':', '') as 'http' | 'https',
-        hostname: new URL(process.env.NEXT_PUBLIC_API_URL).hostname,
-        port: new URL(process.env.NEXT_PUBLIC_API_URL).port,
-      }] : []),
     ],
   },
 };
