@@ -116,6 +116,11 @@ public class NewMenuRepository implements MenuRepository {
         if (searchQuery != null && !searchQuery.isEmpty())
             sql += " AND kor_name LIKE '%" + searchQuery + "%'";
 
+        if (dataSource == null) {
+            System.err.println("CRITICAL: dataSource is null in findAllByCategoryAndSearchQuery!");
+            return new ArrayList<>();
+        }
+
         try {
             try (Connection conn = dataSource.getConnection();
                     Statement stmt = conn.createStatement();
@@ -138,8 +143,8 @@ public class NewMenuRepository implements MenuRepository {
                             null, null));
                 }
             }
-        } catch (SQLException e) {
-            System.err.println("NewMenuRepository.findAllByCategoryAndSearchQuery SQLException: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("NewMenuRepository.findAllByCategoryAndSearchQuery Exception: " + e.getMessage());
             e.printStackTrace();
         }
 
