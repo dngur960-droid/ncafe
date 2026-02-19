@@ -20,8 +20,10 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        BACKEND_URL: http://backend:8029
     ports:
-      - "3001:3001"
+      - "3029:3029"
     environment:
       - BACKEND_URL=http://backend:8029
     depends_on:
