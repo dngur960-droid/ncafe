@@ -1,35 +1,8 @@
 import type { NextConfig } from "next";
 
-
 const nextConfig: NextConfig = {
   output: "standalone",
-  async rewrites() {
-    const backendUrl = process.env.BACKEND_URL || "http://localhost:8029";
-    console.log(`Using backend URL: ${backendUrl}`);
-
-    if (process.env.NODE_ENV === "development") {
-      return [
-        {
-          source: "/api/:path*",
-          destination: `${backendUrl}/:path*`,
-        },
-        {
-          source: "/images/:path*",
-          destination: `${backendUrl}/:path*`,
-        },
-      ];
-    }
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${backendUrl}/:path*`,
-      },
-      {
-        source: "/images/:path*",
-        destination: `${backendUrl}/:path*`,
-      }
-    ];
-  },
+  // rewrites 없음 — 모든 /api 요청은 Catch-all API Route가 처리
   images: {
     unoptimized: true, // 로컬 개발용
     remotePatterns: [
@@ -50,6 +23,5 @@ const nextConfig: NextConfig = {
     ],
   },
 };
-
 
 export default nextConfig;

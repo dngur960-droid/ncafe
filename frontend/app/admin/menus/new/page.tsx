@@ -11,14 +11,30 @@ export default function NewMenuPage() {
     const router = useRouter();
 
     const handleSubmit = async (data: MenuFormData) => {
-        // TODO: 실제 API 연동 필요
-        console.log('New menu data:', data);
+        try {
+            const response = await fetch('/api/admin/menus', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    korName: data.korName,
+                    engName: data.engName,
+                    price: data.price,
+                    description: data.description,
+                    categoryId: data.categoryId ? Number(data.categoryId) : null,
+                    isAvailable: data.isAvailable,
+                    sortOrder: 1,
+                }),
+            });
 
-        // 임시 로딩 시늉 및 성공 처리
-        await new Promise(resolve => setTimeout(resolve, 800));
+            if (!response.ok) {
+                throw new Error('메뉴 등록에 실패했습니다.');
+            }
 
-        alert('메뉴가 성공적으로 등록되었습니다.');
-        router.push('/admin/menus');
+            alert('메뉴가 성공적으로 등록되었습니다.');
+            router.push('/admin/menus');
+        } catch (err) {
+            alert(err instanceof Error ? err.message : '오류가 발생했습니다.');
+        }
     };
 
     return (

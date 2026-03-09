@@ -1,22 +1,59 @@
 
 services:
+
+  # ──────────────────────────────────────────
+  # DB (개인 로컬 DB)
+  # 실행:   docker compose --profile with-db up -d
+  # 초기화: docker volume rm woohyuk-ncafe-db-data
+  # ──────────────────────────────────────────
+  db:
+    image: postgres:17
+    profiles: [ "with-db" ]
+    container_name: ${USER_ID:-woohyuk}-ncafe-db
+    environment:
+      POSTGRES_DB: ncafedb
+      POSTGRES_USER: ncafe
+      POSTGRES_PASSWORD: new_ibm2
+    ports:
+      - "${DB_PORT:-5439}:5432"
+    volumes:
+      - woohyuk-ncafe-db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ncafe-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ncafe -d ncafedb" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ──────────────────────────────────────────
+  # Backend
+  # ──────────────────────────────────────────
   backend:
-    build: 
+    container_name: ${USER_ID:-woohyuk}-ncafe-backend
+    build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "8029:8029"
     environment:
       - SERVER_PORT=8029
-      - SPRING_DATASOURCE_URL="jdbc:postgresql://hi.newlecture.com:5432/ncafedb?useSSL=false&allowPublicKeyRetrieval=true"
-      - SPRING_DATASOURCE_USERNAME=ncafe
-      - SPRING_DATASOURCE_PASSWORD=new_ibm2
+      - SPRING_DATASOURCE_URL=${DATASOURCE_URL:-jdbc:postgresql://db:5432/ncafedb}
+      - SPRING_DATASOURCE_USERNAME=${DATASOURCE_USERNAME:-ncafe}
+      - SPRING_DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD:-new_ibm2}
     volumes:
       - ./backend/upload:/app/upload
     networks:
       - ncafe-network
+    restart: unless-stopped
 
+  # ──────────────────────────────────────────
+  # Frontend
+  # ──────────────────────────────────────────
   frontend:
+    container_name: ${USER_ID:-woohyuk}-ncafe-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -30,7 +67,11 @@ services:
       - backend
     networks:
       - ncafe-network
+    restart: unless-stopped
 
 networks:
   ncafe-network:
     driver: bridge
+
+volumes:
+  woohyuk-ncafe-db-data:

@@ -1,0 +1,136 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.125rem;
+}
+
+/* ── 필드 그룹 ── */
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: rgba(245, 240, 235, 0.65);
+    letter-spacing: 0.01em;
+}
+
+.inputWrap {
+    position: relative;
+}
+
+.inputIcon {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(245, 240, 235, 0.3);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem 0.875rem 0.75rem 2.625rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #f5f0eb;
+    font-size: 0.9375rem;
+    font-family: inherit;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input::placeholder {
+    color: rgba(245, 240, 235, 0.25);
+}
+
+.input:focus {
+    border-color: rgba(212, 163, 115, 0.6);
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.12);
+}
+
+.input.inputError {
+    border-color: rgba(239, 68, 68, 0.6);
+}
+
+.input.inputError:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.fieldError {
+    font-size: 0.75rem;
+    color: #f87171;
+}
+
+/* ── 에러 알림 박스 ── */
+.errorBox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 10px;
+    color: #fca5a5;
+    font-size: 0.875rem;
+}
+
+/* ── 제출 버튼 ── */
+.submitBtn {
+    margin-top: 0.25rem;
+    width: 100%;
+    padding: 0.875rem;
+    background: linear-gradient(135deg, #8b5a2b, #d4a373);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(139, 90, 43, 0.35);
+    letter-spacing: 0.01em;
+}
+
+.submitBtn:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(139, 90, 43, 0.45);
+}
+
+.submitBtn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.submitBtn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* ── 로딩 스피너 ── */
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

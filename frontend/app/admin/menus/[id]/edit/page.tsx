@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import MenuForm from '../../_components/MenuForm';
-import { getMenuById } from '@/mocks/menuData';
 import { MenuFormData } from '@/types';
 import styles from './page.module.css';
 
@@ -20,36 +19,53 @@ export default function EditMenuPage({ params }: EditMenuPageProps) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // 실제로는 API 호출이 들어갈 곳
-        const menu = getMenuById(id);
-
-        if (menu) {
-            // Menu 타입 -> MenuFormData 타입 변환
-            setInitialData({
-                korName: menu.korName,
-                engName: menu.engName,
-                description: menu.description,
-                price: menu.price,
-                categoryId: String(menu.category.id),
-                images: menu.images,
-                isAvailable: menu.isAvailable,
-                isSoldOut: menu.isSoldOut,
-                options: menu.options
-            });
-        }
-
-        setIsLoading(false);
+        const fetchMenu = async () => {
+            try {
+                const response = await fetch(`/api/admin/menus/${id}`);
+                if (!response.ok) throw new Error('메뉴 정보를 가져오는데 실패했습니다.');
+                const menu = await response.json();
+                setInitialData({
+                    korName: menu.korName,
+                    engName: menu.engName,
+                    description: menu.description,
+                    price: Number(menu.price),
+                    categoryId: String(menu.categoryId ?? ''),
+                    images: [],
+                    isAvailable: menu.isAvailable,
+                    isSoldOut: false,
+                    options: [],
+                });
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchMenu();
     }, [id]);
 
     const handleSubmit = async (data: MenuFormData) => {
-        // TODO: 실제 API 수정 로직
-        console.log('Modified menu data:', data);
+        try {
+            const response = await fetch(`/api/admin/menus/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    korName: data.korName,
+                    engName: data.engName,
+                    price: data.price,
+                    description: data.description,
+                    categoryId: data.categoryId ? Number(data.categoryId) : null,
+                    isAvailable: data.isAvailable,
+                }),
+            });
 
-        // 로딩 시늉
-        await new Promise(resolve => setTimeout(resolve, 800));
+            if (!response.ok) throw new Error('메뉴 수정에 실패했습니다.');
 
-        alert('메뉴가 수정되었습니다.');
-        router.push(`/admin/menus/${id}`);
+            alert('메뉴가 수정되었습니다.');
+            router.push(`/admin/menus/${id}`);
+        } catch (err) {
+            alert(err instanceof Error ? err.message : '오류가 발생했습니다.');
+        }
     };
 
     if (isLoading) {

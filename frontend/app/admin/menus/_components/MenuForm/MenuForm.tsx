@@ -1,6 +1,6 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { MenuFormData } from '@/types';
-import { mockCategories } from '@/mocks/menuData';
+import { useCategories } from '../CategoryTabs/useCategories';
 import OptionSection from './OptionSection';
 import ImageUploadSection from './ImageUploadSection';
 import styles from './MenuForm.module.css';
@@ -30,6 +30,8 @@ export default function MenuForm({
     });
 
     const { register, handleSubmit, formState: { errors } } = methods;
+    const { categories } = useCategories();
+
 
     return (
         <FormProvider {...methods}>
@@ -75,9 +77,9 @@ export default function MenuForm({
                                 className={styles.select}
                             >
                                 <option value="">카테고리 선택</option>
-                                {mockCategories.map(cat => (
+                                {categories.map(cat => (
                                     <option key={cat.id} value={cat.id}>
-                                        {cat.icon} {cat.korName}
+                                        {cat.icon} {cat.name}
                                     </option>
                                 ))}
                             </select>
