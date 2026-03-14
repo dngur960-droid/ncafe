@@ -33,9 +33,17 @@ const navItems = [
         ],
     },
     {
+        section: 'AI 지식관리 (RAG)',
+        items: [
+            { href: '/admin/rag/documents', label: '지식베이스 관리', icon: Package },
+            { href: '/admin/rag/playground', label: '검색 및 답변 테스트', icon: BarChart3 },
+            { href: '/admin/rag/settings', label: 'RAG 엔진 설정', icon: Settings },
+        ],
+    },
+    {
         section: '기타',
         items: [
-            { href: '/admin/settings', label: '설정', icon: Settings },
+            { href: '/admin/settings', label: '일반 설정', icon: Settings },
         ],
     },
 ];

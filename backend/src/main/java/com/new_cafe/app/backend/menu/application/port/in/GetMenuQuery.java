@@ -1,5 +1,7 @@
 package com.new_cafe.app.backend.menu.application.port.in;
 
+import com.new_cafe.app.backend.admin.menu.adapter.in.web.res.MenuResult;
+
 /**
  * [Inbound Port] 메뉴 조회 Query
  */

@@ -32,7 +32,7 @@ export default function EditMenuPage({ params }: EditMenuPageProps) {
                     categoryId: String(menu.categoryId ?? ''),
                     images: [],
                     isAvailable: menu.isAvailable,
-                    isSoldOut: false,
+                    isSoldOut: menu.isSoldOut,
                     options: [],
                 });
             } catch (err) {
@@ -56,6 +56,7 @@ export default function EditMenuPage({ params }: EditMenuPageProps) {
                     description: data.description,
                     categoryId: data.categoryId ? Number(data.categoryId) : null,
                     isAvailable: data.isAvailable,
+                    isSoldOut: data.isSoldOut,
                 }),
             });
 

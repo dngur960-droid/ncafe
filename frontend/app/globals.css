@@ -31,22 +31,29 @@
   --color-gray-800: #262626;
   --color-gray-900: #171717;
 
-  /* Semantic Colors */
-  --color-success: #22c55e;
-  --color-success-light: #dcfce7;
-  --color-warning: #f59e0b;
-  --color-warning-light: #fef3c7;
-  --color-error: #ef4444;
-  --color-error-light: #fee2e2;
-  --color-info: #3b82f6;
-  --color-info-light: #dbeafe;
+  /* Nice Quokka Theme - Essential Colors */
+  --color-paper-bg: #fdfaf3;      /* 따뜻한 미색 (이미지와 일치) */
+  --color-paper-card: #ffffff;
+  --color-paper-border: #e6e0d4;
+  
+  --color-quokka-brown: #8b5a3c;  /* 쿼카 메인 갈색 */
+  --color-quokka-light: #d4c4b7;  /* 쿼카 배/보조색 */
+  --color-quokka-beige: #f5ebe0;  /* 배경 보조 */
+  
+  --color-kids-mint: #a8dadc;     /* 소프트 민트 */
+  --color-kids-yellow: #f4d35e;   /* 파스텔 옐로우 */
+  --color-kids-red: #e76f51;      /* 따뜻한 테라코타 레드 */
+  --color-kids-pink: #ffafcc;     /* 쿼카 볼터치 핑크 */
 
-  /* Background */
-  --bg-primary: #ffffff;
-  --bg-secondary: #fafafa;
-  --bg-tertiary: #f5f5f5;
+  /* Shadows (Paper Layering Effect) */
+  --shadow-paper: 0 4px 0px rgba(0, 0, 0, 0.05), 
+                  0 8px 10px rgba(0, 0, 0, 0.08);
+  --shadow-paper-floating: 0 15px 25px -5px rgba(0, 0, 0, 0.1), 
+                           0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-paper-cut: 2px 2px 0px rgba(0, 0, 0, 0.1);
 
   /* Typography */
+  --font-paper: 'Gowun Batang', serif;
   --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
   --text-xs: 0.75rem;     /* 12px */
@@ -114,6 +121,7 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -121,7 +129,7 @@ body {
   font-size: var(--text-base);
   line-height: 1.6;
   color: var(--color-gray-900);
-  background-color: var(--bg-secondary);
+  background-color: var(--color-paper-bg) !important; /* 이미지 배경과 통일 */
 }
 
 a {
@@ -138,6 +146,54 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+/* Nice Quokka Core Styles */
+.paper-bg {
+  background-color: var(--color-paper-bg);
+  /* 텍스처를 제거하여 이미지 배경과 완벽히 일치시킴 */
+}
+
+.paper-card {
+  background: var(--color-paper-card);
+  border: 1px solid var(--color-paper-border);
+  box-shadow: var(--shadow-paper);
+  border-radius: 2px;
+  position: relative;
+}
+
+.paper-cut {
+  border: 2px solid #5a3d29;
+  box-shadow: var(--shadow-paper-cut);
+  background-color: white;
+  border-radius: 8px 4px 10px 3px / 4px 10px 3px 8px; /* 손으로 자른 느낌 */
+}
+
+.sketch-border {
+  border: 3px solid #5a3d29;
+  border-radius: 30px 10px 40px 15px / 15px 40px 10px 30px; /* 다듬어진 손그림 느낌 */
+  box-shadow: 6px 6px 0px rgba(84, 58, 38, 0.08);
+}
+
+.cardboard {
+  background-color: var(--color-cardboard);
+  background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png");
+  border: 1px solid var(--color-cardboard-dark);
+  color: #4a3222;
+}
+
+.washi-tape {
+  position: absolute;
+  width: 60px;
+  height: 20px;
+  background-color: var(--color-kids-mint);
+  opacity: 0.7;
+  transform: rotate(-5deg);
+  top: -10px;
+  left: 50%;
+  margin-left: -30px;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  pointer-events: none;
 }
 
 ul, ol {

@@ -1,0 +1,141 @@
+.chatContainer {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  font-family: var(--font-paper);
+}
+
+.chatButton {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 4px solid #5a3d29;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(84, 58, 38, 0.2);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatButton:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.chatButton img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chatWindow {
+  position: absolute;
+  bottom: 85px;
+  right: 0;
+  width: 350px;
+  height: 500px;
+  background: #fdfaf3;
+  border: 4px solid #5a3d29;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(84, 58, 38, 0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chatHeader {
+  background: #5a3d29;
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerIcon {
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.chatHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.messageArea {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  position: relative;
+}
+
+.quokkaMessage {
+  align-self: flex-start;
+  background: #fff;
+  border: 2px solid #5a3d29;
+  color: #5a3d29;
+  border-bottom-left-radius: 2px;
+}
+
+.userMessage {
+  align-self: flex-end;
+  background: #5a3d29;
+  color: white;
+  border-bottom-right-radius: 2px;
+}
+
+.inputArea {
+  padding: 15px;
+  background: white;
+  display: flex;
+  gap: 8px;
+  border-top: 2px solid #e6dcc6;
+}
+
+.inputArea input {
+  flex: 1;
+  border: 2px solid #5a3d29;
+  border-radius: 12px;
+  padding: 8px 12px;
+  outline: none;
+}
+
+.sendButton {
+  background: #5a3d29;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sendButton:disabled {
+  opacity: 0.5;
+}

@@ -55,4 +55,21 @@ export const authAPI = {
         fetchAPI('/auth/logout', { method: 'POST' }),
 
     getSession: () => fetchAPI('/auth/session'),
+    
+    register: (username: string, password: string) =>
+        fetchAPI('/auth/register', {
+            method: 'POST',
+            body: JSON.stringify({ username, password }),
+        }),
+};
+
+// 주문 관련 API 모음
+export const orderAPI = {
+    placeOrder: (orderData: any) =>
+        fetchAPI('/orders', {
+            method: 'POST',
+            body: JSON.stringify(orderData),
+        }),
+
+    getOrder: (id: number) => fetchAPI(`/orders/${id}`),
 };

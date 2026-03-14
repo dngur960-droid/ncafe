@@ -22,6 +22,7 @@ export default function NewMenuPage() {
                     description: data.description,
                     categoryId: data.categoryId ? Number(data.categoryId) : null,
                     isAvailable: data.isAvailable,
+                    isSoldOut: data.isSoldOut,
                     sortOrder: 1,
                 }),
             });

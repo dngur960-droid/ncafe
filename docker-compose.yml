@@ -3,8 +3,6 @@ services:
 
   # ──────────────────────────────────────────
   # DB (개인 로컬 DB)
-  # 실행:   docker compose --profile with-db up -d
-  # 초기화: docker volume rm woohyuk-ncafe-db-data
   # ──────────────────────────────────────────
   db:
     image: postgres:17
@@ -17,7 +15,7 @@ services:
     ports:
       - "${DB_PORT:-5439}:5432"
     volumes:
-      - woohyuk-ncafe-db-data:/var/lib/postgresql/data
+      -  /home/woohyuk/data:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - ncafe-network
@@ -39,12 +37,15 @@ services:
     ports:
       - "8029:8029"
     environment:
+      - SPRING_PROFILES_ACTIVE=prod
       - SERVER_PORT=8029
       - SPRING_DATASOURCE_URL=${DATASOURCE_URL:-jdbc:postgresql://db:5432/ncafedb}
       - SPRING_DATASOURCE_USERNAME=${DATASOURCE_USERNAME:-ncafe}
       - SPRING_DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD:-new_ibm2}
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET 환경변수를 설정해주세요}
+      - JWT_EXPIRATION=${JWT_EXPIRATION:-86400000}
     volumes:
-      - ./backend/upload:/app/upload
+      - /home/woohyuk/upload:/app/upload
     networks:
       - ncafe-network
     restart: unless-stopped
@@ -59,12 +60,31 @@ services:
       dockerfile: Dockerfile
       args:
         BACKEND_URL: http://backend:8029
-    ports:
-      - "3029:3029"
     environment:
-      - BACKEND_URL=http://backend:8029
+      - API_BASE_URL=http://backend:8029
+      - RAG_API_BASE_URL=http://172.27.76.25:8000
+      - SESSION_SECRET=${SESSION_SECRET:?SESSION_SECRET 환경변수를 설정해주세요}
     depends_on:
       - backend
+    networks:
+      - ncafe-network
+    restart: unless-stopped
+
+  # ──────────────────────────────────────────
+  # Nginx (Entry Point)
+  # ──────────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: ${USER_ID:-woohyuk}-ncafe-nginx
+    ports:
+      - "80:80"
+      - "3000:80"
+      - "3029:80"
+      - "8080:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - frontend
     networks:
       - ncafe-network
     restart: unless-stopped
@@ -72,6 +92,3 @@ services:
 networks:
   ncafe-network:
     driver: bridge
-
-volumes:
-  woohyuk-ncafe-db-data:

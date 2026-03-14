@@ -1,7 +1,7 @@
 package com.new_cafe.app.backend.order.application.service;
 
-import com.new_cafe.app.backend.menu.application.port.out.LoadMenuPort;
-import com.new_cafe.app.backend.menu.domain.model.Menu;
+import com.new_cafe.app.backend.admin.menu.application.port.out.LoadMenuPort;
+import com.new_cafe.app.backend.admin.menu.domain.model.Menu;
 import com.new_cafe.app.backend.order.application.dto.OrderRequest;
 import com.new_cafe.app.backend.order.application.port.in.OrderUseCase;
 import com.new_cafe.app.backend.order.application.port.out.OrderPort;

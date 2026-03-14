@@ -1,0 +1,61 @@
+.menuPage {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+
+
+/* Paper-style elements are already in globals.css, we use them here */
+.pageTitle {
+    font-family: var(--font-paper);
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #5a3d29;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+}
+
+.pageSubtitle {
+    color: #8b5a3c;
+    font-size: 1.2rem;
+}
+
+.searchContainer {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.searchInputWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8b5a3c;
+    pointer-events: none;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 1.1rem 1.1rem 1.1rem 3.5rem;
+    border: 3px solid #5a3d29;
+    border-radius: 40px 10px 35px 8px / 12px 35px 10px 40px; /* Refined sketchy look */
+    background: #fff;
+    font-family: var(--font-paper);
+    font-size: 1.2rem;
+    color: #5a3d29;
+    transition: all 0.2s;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--color-kids-mint);
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.05);
+}

@@ -1,13 +1,13 @@
 package com.new_cafe.app.backend.menu.application.service;
 
 import com.new_cafe.app.backend.category.application.port.out.LoadCategoryPort;
-import com.new_cafe.app.backend.menu.application.port.out.MenuImagePort;
-import com.new_cafe.app.backend.menu.application.port.out.LoadMenuPort;
+import com.new_cafe.app.backend.admin.menu.application.port.out.MenuImagePort;
+import com.new_cafe.app.backend.admin.menu.application.port.out.LoadMenuPort;
 import com.new_cafe.app.backend.category.domain.model.Category;
-import com.new_cafe.app.backend.menu.domain.model.Menu;
-import com.new_cafe.app.backend.menu.domain.model.MenuImage;
+import com.new_cafe.app.backend.admin.menu.domain.model.Menu;
+import com.new_cafe.app.backend.admin.menu.domain.model.MenuImage;
 import com.new_cafe.app.backend.menu.application.port.in.GetMenuQuery;
-import com.new_cafe.app.backend.menu.application.port.in.MenuResult;
+import com.new_cafe.app.backend.admin.menu.adapter.in.web.res.MenuResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

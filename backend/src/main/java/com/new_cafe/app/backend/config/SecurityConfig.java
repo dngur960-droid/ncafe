@@ -30,7 +30,7 @@ public class SecurityConfig {
             .cors(AbstractHttpConfigurer::disable) // WebConfig에서 설정한 CORS 사용
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login", "/api/auth/logout").permitAll()
+                .requestMatchers("/api/auth/login", "/api/auth/logout", "/api/auth/register").permitAll()
                 .requestMatchers("/api/auth/me").authenticated()
                 .requestMatchers("/api/menus/**", "/api/categories/**").permitAll()
                 .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")

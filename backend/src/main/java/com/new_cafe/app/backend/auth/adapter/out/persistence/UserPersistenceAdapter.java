@@ -1,25 +1,22 @@
 package com.new_cafe.app.backend.auth.adapter.out.persistence;
 
 import com.new_cafe.app.backend.auth.application.port.out.LoadUserPort;
+import com.new_cafe.app.backend.auth.application.port.out.SaveUserPort;
 import com.new_cafe.app.backend.auth.domain.model.User;
 
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 
 /**
- * [Outbound Adapter] 유저 DB 조회 어댑터.
+ * [Outbound Adapter] 유저 DB 조회 및 저장 어댑터.
  *
- * LoadUserPort 인터페이스를 구현하는 실제 DB 접근 계층.
- * JDBC → JPA 또는 다른 기술로 교체 시 이 파일만 수정하면 됨.
+ * LoadUserPort, SaveUserPort 인터페이스를 구현하는 실제 DB 접근 계층.
  */
 @Component
-public class UserPersistenceAdapter implements LoadUserPort {
+public class UserPersistenceAdapter implements LoadUserPort, SaveUserPort {
 
     private final DataSource dataSource;
 
@@ -57,5 +54,32 @@ public class UserPersistenceAdapter implements LoadUserPort {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public User save(User user) {
+        String sql = "INSERT INTO users (username, password_hash, role, created_at) VALUES (?, ?, ?, ?) RETURNING id";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, user.getPasswordHash());
+            pstmt.setString(3, user.getRole() != null ? user.getRole() : "ROLE_USER");
+            pstmt.setTimestamp(4, Timestamp.valueOf(user.getCreatedAt() != null ? user.getCreatedAt() : java.time.LocalDateTime.now()));
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    user.setId(rs.getLong("id"));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("UserPersistenceAdapter.save Error: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("회원 정보 저장 중 오류가 발생했습니다.");
+        }
+
+        return user;
     }
 }

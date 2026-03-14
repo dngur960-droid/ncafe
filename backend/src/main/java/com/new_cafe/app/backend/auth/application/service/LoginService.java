@@ -39,7 +39,10 @@ public class LoginService implements LoginUseCase {
         User user = userOptional.get();
 
         // 3. 비밀번호 검증 로직
-        if (!user.matchesPassword(command.getPassword())) {
+        boolean matches = user.matchesPassword(command.getPassword());
+        System.out.println("[DEBUG] Login attempt - Username: " + command.getUsername() + ", Password Matches: " + matches);
+
+        if (!matches) {
             throw new RuntimeException("비밀번호가 올바르지 않습니다.");
         }
 

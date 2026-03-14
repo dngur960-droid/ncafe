@@ -1,0 +1,40 @@
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.8rem;
+    background: #fff;
+    border: 3px solid #5a3d29;
+    border-radius: 9999px; /* Clean pill shape */
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #8b5a3c;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 4px 4px 0px rgba(84, 58, 38, 0.05);
+}
+
+.tab:hover {
+    transform: scale(1.05);
+    border-color: #8b5a3c;
+}
+
+.tabActive {
+    background: var(--color-kids-yellow);
+    border-color: #5a3d29;
+    color: #5a3d29;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 8px 8px 0px rgba(84, 58, 38, 0.1);
+}
+
+.tabIcon {
+    font-size: 1.2rem;
+}

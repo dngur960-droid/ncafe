@@ -25,15 +25,19 @@ import org.springframework.web.bind.annotation.RestController;
  *   GET  /auth/me      - 현재 유저 정보 조회
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final LoginUseCase loginUseCase;
     private final ParseTokenUseCase parseTokenUseCase;
+    private final com.new_cafe.app.backend.auth.application.port.in.RegisterUseCase registerUseCase;
 
-    public AuthController(LoginUseCase loginUseCase, ParseTokenUseCase parseTokenUseCase) {
+    public AuthController(LoginUseCase loginUseCase, 
+                          ParseTokenUseCase parseTokenUseCase,
+                          com.new_cafe.app.backend.auth.application.port.in.RegisterUseCase registerUseCase) {
         this.loginUseCase = loginUseCase;
         this.parseTokenUseCase = parseTokenUseCase;
+        this.registerUseCase = registerUseCase;
     }
 
     /**
@@ -92,4 +96,32 @@ public class AuthController {
             return ResponseEntity.status(401).build();
         }
     }
+
+    /**
+     * 회원가입.
+     * POST /api/auth/register
+     */
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        try {
+            com.new_cafe.app.backend.auth.application.port.in.RegisterUseCase.RegisterCommand command = 
+                new com.new_cafe.app.backend.auth.application.port.in.RegisterUseCase.RegisterCommand(
+                    request.getUsername(), request.getPassword()
+                );
+            registerUseCase.register(command);
+            return ResponseEntity.ok("회원가입에 성공했습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+}
+
+class RegisterRequest {
+    private String username;
+    private String password;
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }

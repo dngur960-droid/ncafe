@@ -1,0 +1,114 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 5%;
+    width: 100%;
+    z-index: 100;
+    position: relative;
+}
+
+.navWrapper {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.cartLink {
+    position: relative;
+    color: #5a3d29;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.cartLink:hover {
+    transform: scale(1.1);
+    color: var(--color-kids-mint);
+}
+
+.cartCount {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: var(--color-kids-red);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.logoLink {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s;
+}
+
+.logoLink:hover {
+    transform: scale(1.05) rotate(-1deg);
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.mascotBox {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.mascot {
+    object-fit: contain;
+    filter: drop-shadow(2px 2px 0px rgba(84, 58, 38, 0.1));
+}
+
+.logoBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.4rem 0.8rem;
+    background: #5a3d29;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+    transform: rotate(-1deg);
+}
+
+.logoText {
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.logoSub {
+    font-size: 0.7rem;
+    font-weight: 700;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+    
+    .logoBox {
+        align-items: center;
+    }
+}

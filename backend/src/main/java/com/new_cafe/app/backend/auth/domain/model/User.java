@@ -8,11 +8,13 @@ import java.time.LocalDateTime;
  */
 public class User {
 
-    private final Long id;
+    private Long id;
     private final String username;
     private final String passwordHash;
     private final String role;
     private final LocalDateTime createdAt;
+
+    public void setId(Long id) { this.id = id; }
 
     public User(Long id, String username, String passwordHash, String role, LocalDateTime createdAt) {
         this.id = id;

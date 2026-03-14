@@ -1,28 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/app/lib/session';
 
-const API_BASE = process.env.API_BASE_URL || 'http://localhost:8029';
-
-async function proxyRequest(req: NextRequest) {
+export async function proxyRequest(req: NextRequest) {
     const session = await getSession();
 
-    // 클라이언트가 /api/admin/menus 로 요청하면 백엔드에는 /admin/menus 로 전달해야 함 
-    // (Spring Boot 애플리케이션에 /api context path가 없으므로)
-    const requestPath = req.nextUrl.pathname.replace(/^\/api/, '');
     const search = req.nextUrl.search;
-    const targetUrl = `${API_BASE}${requestPath}${search}`;
+    
+    const isRagRequest = req.nextUrl.pathname.startsWith('/api/rag');
+    const targetBase = isRagRequest 
+        ? (process.env.RAG_API_BASE_URL || 'http://172.27.76.25:8000') 
+        : (process.env.API_BASE_URL || 'http://backend:8029');
+
+    // ★ 수정: 메뉴 이미지 요청인 경우 /api/images를 완전히 떼고 백엔드 루트에서 찾도록 함
+    // 백엔드는 ./upload/ 폴더를 루트(/)로 서빙하고 있기 때문입니다.
+    let targetPath = req.nextUrl.pathname;
+    if (!isRagRequest && targetPath.startsWith('/api/images')) {
+        targetPath = targetPath.replace(/^\/api\/images/, '');
+    }
+    
+    const targetUrl = `${targetBase}${targetPath}${search}`;
+
+    console.log(`[Proxy] ${req.method} ${req.nextUrl.pathname} -> ${targetUrl} (RAG: ${isRagRequest})`);
 
     const headers: Record<string, string> = {};
 
-    const contentType = req.headers.get('content-type');
-    if (contentType) {
-        headers['Content-Type'] = contentType;
-    }
-
-    const accept = req.headers.get('accept');
-    if (accept) {
-        headers['Accept'] = accept;
-    }
+    // ★ 수정: 프록시 시 문제를 일으킬 수 있는 헤더 제외 (Connection, Keep-Alive 등)
+    const skipHeaders = ['host', 'cookie', 'connection', 'keep-alive', 'transfer-encoding'];
+    req.headers.forEach((value, key) => {
+        if (!skipHeaders.includes(key.toLowerCase())) {
+            headers[key] = value;
+        }
+    });
 
     // ★ 핵심: 세션에 JWT가 있으면 Authorization 헤더 주입
     if (session.token) {
@@ -31,7 +39,7 @@ async function proxyRequest(req: NextRequest) {
 
     let body: BodyInit | null = null;
     if (req.method !== 'GET' && req.method !== 'HEAD') {
-        if (contentType?.includes('multipart/form-data')) {
+        if (req.headers.get('content-type')?.includes('multipart/form-data')) {
             body = await req.blob();
         } else {
             body = await req.text();

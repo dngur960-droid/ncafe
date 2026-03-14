@@ -49,15 +49,20 @@ export default function LoginForm() {
         setServerError(null);
 
         try {
-            await authAPI.login(values.username, values.password);
-
-            // 다른 컴포넌트에게 로그인 상태 변경 알림
-            window.dispatchEvent(new Event('login'));
+            const sessionData = await authAPI.login(values.username, values.password);
+            const user = sessionData.user;
 
             // 리다이렉트 처리
             const searchParams = new URLSearchParams(window.location.search);
             const redirectParams = searchParams.get('redirect');
-            router.push(redirectParams || '/admin');
+            
+            if (redirectParams) {
+                router.push(redirectParams);
+            } else if (user?.role === 'ADMIN') {
+                router.push('/admin');
+            } else {
+                router.push('/');
+            }
 
         } catch (err: any) {
             setServerError(err.message || '서버와 통신 중 오류가 발생했습니다.');

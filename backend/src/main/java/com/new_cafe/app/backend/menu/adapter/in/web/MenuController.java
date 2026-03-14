@@ -1,7 +1,7 @@
 package com.new_cafe.app.backend.menu.adapter.in.web;
 
 import com.new_cafe.app.backend.menu.application.port.in.GetMenuQuery;
-import com.new_cafe.app.backend.menu.application.port.in.MenuResult;
+import com.new_cafe.app.backend.admin.menu.adapter.in.web.res.MenuResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

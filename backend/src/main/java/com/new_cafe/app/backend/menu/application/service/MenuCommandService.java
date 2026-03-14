@@ -2,11 +2,11 @@ package com.new_cafe.app.backend.menu.application.service;
 
 import com.new_cafe.app.backend.menu.application.port.in.RegisterMenuUseCase;
 import com.new_cafe.app.backend.menu.application.port.in.UpdateMenuUseCase;
-import com.new_cafe.app.backend.menu.application.port.in.MenuResult;
-import com.new_cafe.app.backend.menu.application.port.out.LoadMenuPort;
-import com.new_cafe.app.backend.menu.application.port.out.SaveMenuPort;
-import com.new_cafe.app.backend.menu.application.port.out.DeleteMenuPort;
-import com.new_cafe.app.backend.menu.domain.model.Menu;
+import com.new_cafe.app.backend.admin.menu.adapter.in.web.res.MenuResult;
+import com.new_cafe.app.backend.admin.menu.application.port.out.LoadMenuPort;
+import com.new_cafe.app.backend.admin.menu.application.port.out.SaveMenuPort;
+import com.new_cafe.app.backend.admin.menu.application.port.out.DeleteMenuPort;
+import com.new_cafe.app.backend.admin.menu.domain.model.Menu;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
