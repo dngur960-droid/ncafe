@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 import { authAPI } from '@/app/lib/api';
 import styles from './LoginForm.module.css';
 
@@ -82,15 +83,20 @@ export default function LoginForm() {
             if (redirectParams) {
                 // 절대 경로가 아님을 보장하여 보안 유지
                 const safePath = redirectParams.startsWith('/') ? redirectParams : '/';
+                toast.success('로그인에 성공했습니다!');
                 router.push(safePath);
             } else if (user?.role === 'ADMIN') {
+                toast.success('관리자로 로그인했습니다!');
                 router.push('/admin');
             } else {
+                toast.success('로그인에 성공했습니다!');
                 router.push('/');
             }
 
         } catch (err: any) {
-            setServerError(err.message || '서버와 통신 중 오류가 발생했습니다.');
+            const errorMsg = err.message || '서버와 통신 중 오류가 발생했습니다.';
+            toast.error(errorMsg);
+            setServerError(errorMsg);
         } finally {
             setIsLoading(false);
         }

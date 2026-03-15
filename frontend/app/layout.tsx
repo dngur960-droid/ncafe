@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 import LayoutHeader from "./_components/LayoutHeader";
 import QuokkaChat from "./_components/QuokkaChat";
 import { CartProvider } from "./_context/CartContext";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -39,6 +40,7 @@ export default function RootLayout({
           <LayoutHeader />
           {children}
           <QuokkaChat />
+          <Toaster position="top-center" />
         </CartProvider>
       </body>
     </html>

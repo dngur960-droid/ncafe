@@ -6,16 +6,16 @@ services:
       dockerfile: Dockerfile
     container_name: woohyuk-backend
     ports:
-      - "8029:8081"
+      - "8029:8029"
     volumes:
       - ./upload:/app/upload
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=8029
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:postgresql://db:5432/ncafedb}
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-ncafe}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-new_ibm2}
       - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRATION=${JWT_EXPIRATION:-86400000}
     restart: unless-stopped
     depends_on:
       - db
@@ -29,7 +29,7 @@ services:
     ports:
       - "3029:3001"
     environment:
-      - API_BASE_URL=http://backend:8081
+      - API_BASE_URL=http://backend:8029
       - SESSION_SECRET=${SESSION_SECRET:-woohyuk_ncafe_secret_key_32_chars_long!!}
     depends_on:
       - backend
@@ -37,6 +37,7 @@ services:
 
   db:
     image: postgres:17
+    profiles: [ "with-db" ]
     container_name: woohyuk-db
     environment:
       POSTGRES_DB: ncafedb
