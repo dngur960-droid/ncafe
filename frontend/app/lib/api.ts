@@ -7,6 +7,7 @@ export async function fetchAPI(endpoint: string, options?: RequestInit) {
                 'Accept': 'application/json',
                 ...options?.headers,
             },
+            cache: 'no-store',
             // credentials: 'same-origin' 이 기본값이므로 쿠키 자동 전송
         });
 

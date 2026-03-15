@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { authAPI } from '@/app/lib/api';
 import styles from './LoginForm.module.css';
@@ -22,6 +22,19 @@ export default function LoginForm() {
     const [errors, setErrors] = useState<FormErrors>({});
     const [serverError, setServerError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    
+    // 세션 체크 상태
+    const [sessionUser, setSessionUser] = useState<any>(null);
+    const [isCheckingSession, setIsCheckingSession] = useState(true);
+
+    // 컴포넌트 마운트 시 세션 확인
+    useEffect(() => {
+        authAPI.getSession()
+            .then(res => {
+                if (res?.user) setSessionUser(res.user);
+            })
+            .finally(() => setIsCheckingSession(false));
+    }, []);
 
     const validate = (): boolean => {
         const newErrors: FormErrors = {};
@@ -31,10 +44,20 @@ export default function LoginForm() {
         return Object.keys(newErrors).length === 0;
     };
 
+    const handleLogout = async () => {
+        setIsLoading(true);
+        try {
+            await authAPI.logout();
+            setSessionUser(null);
+            router.refresh();
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setValues(prev => ({ ...prev, [name]: value }));
-        // 타이핑 시 해당 필드 에러 초기화
         if (errors[name as keyof FormErrors]) {
             setErrors(prev => ({ ...prev, [name]: undefined }));
         }
@@ -57,7 +80,9 @@ export default function LoginForm() {
             const redirectParams = searchParams.get('redirect');
             
             if (redirectParams) {
-                router.push(redirectParams);
+                // 절대 경로가 아님을 보장하여 보안 유지
+                const safePath = redirectParams.startsWith('/') ? redirectParams : '/';
+                router.push(safePath);
             } else if (user?.role === 'ADMIN') {
                 router.push('/admin');
             } else {
@@ -70,6 +95,24 @@ export default function LoginForm() {
             setIsLoading(false);
         }
     };
+
+    if (isCheckingSession) {
+        return <div className={styles.loadingBox}><span className={styles.spinner} /> 쿼카가 확인 중...</div>;
+    }
+
+    // 이미 로그인된 경우
+    if (sessionUser) {
+        return (
+            <div className={styles.alreadyLoggedBox}>
+                <div className={styles.quokkaGreeting}>👋</div>
+                <p>반가워요! 이미 <strong>{sessionUser.username}</strong>님으로 로그인되어 있어요.</p>
+                <div className={styles.actionGroup}>
+                    <button className={styles.submitBtn} onClick={() => router.push('/admin')}>대시보드로 이동</button>
+                    <button className={styles.logoutBtn} onClick={handleLogout}>다른 아이디로 로그인</button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <form id="loginForm" className={styles.form} onSubmit={handleSubmit} noValidate>

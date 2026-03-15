@@ -1,10 +1,68 @@
 .form {
     display: flex;
     flex-direction: column;
-    gap: 1.125rem;
+    gap: 1.25rem;
 }
 
-/* ── 필드 그룹 ── */
+.loadingBox {
+    text-align: center;
+    padding: 2rem 0;
+    color: #8b5a3c;
+    font-weight: 500;
+}
+
+.alreadyLoggedBox {
+    text-align: center;
+    padding: 1rem 0;
+    color: #5a3d29;
+}
+
+.quokkaGreeting {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: wave 1s infinite ease-in-out;
+    display: inline-block;
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(15deg); }
+}
+
+.alreadyLoggedBox p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.alreadyLoggedBox strong {
+    color: #8b5a3c;
+    font-weight: 700;
+}
+
+.actionGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.logoutBtn {
+    width: 100%;
+    padding: 1rem;
+    background: transparent;
+    color: #8b5a3c;
+    border: 2px solid #e6e0d4;
+    border-radius: 18px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logoutBtn:hover {
+    background: #fdfaf3;
+    border-color: #8b5a3c;
+}
+
 .fieldGroup {
     display: flex;
     flex-direction: column;
@@ -12,10 +70,10 @@
 }
 
 .label {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: rgba(245, 240, 235, 0.65);
-    letter-spacing: 0.01em;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #5a3d29;
+    padding-left: 4px;
 }
 
 .inputWrap {
@@ -24,113 +82,95 @@
 
 .inputIcon {
     position: absolute;
-    left: 0.875rem;
+    left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(245, 240, 235, 0.3);
-    pointer-events: none;
-    display: flex;
-    align-items: center;
+    color: #d4c4b7;
 }
 
 .input {
     width: 100%;
-    padding: 0.75rem 0.875rem 0.75rem 2.625rem;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    color: #f5f0eb;
-    font-size: 0.9375rem;
-    font-family: inherit;
-    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    padding: 1rem 1rem 1rem 3rem;
+    background: #fff;
+    border: 2px solid #e6e0d4;
+    border-radius: 16px;
+    color: #4a3222;
+    font-size: 1rem;
+    transition: all 0.2s ease;
     outline: none;
     box-sizing: border-box;
 }
 
-.input::placeholder {
-    color: rgba(245, 240, 235, 0.25);
-}
-
 .input:focus {
-    border-color: rgba(212, 163, 115, 0.6);
-    background: rgba(255, 255, 255, 0.09);
-    box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.12);
+    border-color: #8b5a3c;
+    box-shadow: 0 0 0 4px rgba(139, 90, 43, 0.05);
 }
 
 .input.inputError {
-    border-color: rgba(239, 68, 68, 0.6);
-}
-
-.input.inputError:focus {
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+    border-color: #e76f51;
 }
 
 .fieldError {
-    font-size: 0.75rem;
-    color: #f87171;
+    font-size: 0.8rem;
+    color: #e76f51;
+    padding-left: 4px;
 }
 
-/* ── 에러 알림 박스 ── */
 .errorBox {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.25);
-    border-radius: 10px;
-    color: #fca5a5;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #fff5f2;
+    border: 1px solid #ffcfc4;
+    border-radius: 12px;
+    color: #e76f51;
     font-size: 0.875rem;
 }
 
-/* ── 제출 버튼 ── */
 .submitBtn {
-    margin-top: 0.25rem;
+    margin-top: 1rem;
     width: 100%;
-    padding: 0.875rem;
-    background: linear-gradient(135deg, #8b5a2b, #d4a373);
-    border: none;
-    border-radius: 12px;
+    padding: 1.125rem;
+    background-color: #8b5a3c;
     color: #fff;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    font-family: inherit;
+    border: none;
+    border-radius: 18px;
+    font-size: 1.125rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 4px 16px rgba(139, 90, 43, 0.35);
-    letter-spacing: 0.01em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 4px 0px rgba(84, 58, 38, 0.2);
 }
 
 .submitBtn:hover:not(:disabled) {
-    opacity: 0.9;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(139, 90, 43, 0.45);
+    background-color: #724931;
+    transform: translate(-1px, -1px);
+    box-shadow: 6px 6px 0px rgba(84, 58, 38, 0.2);
 }
 
 .submitBtn:active:not(:disabled) {
-    transform: translateY(0);
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px rgba(84, 58, 38, 0.2);
 }
 
 .submitBtn:disabled {
-    opacity: 0.55;
+    background-color: #d4c4b7;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
-/* ── 로딩 스피너 ── */
 .spinner {
     display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-top-color: #fff;
     border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    vertical-align: middle;
-    margin-right: 0.5rem;
+    animation: spin 0.8s linear infinite;
+    margin-right: 0.75rem;
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }

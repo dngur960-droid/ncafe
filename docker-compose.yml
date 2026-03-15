@@ -15,6 +15,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-ncafe}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-new_ibm2}
       - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION:-86400000}
     restart: unless-stopped
     depends_on:
       - db
@@ -36,7 +37,6 @@ services:
 
   db:
     image: postgres:17
-    profiles: [ "with-db" ]
     container_name: woohyuk-db
     environment:
       POSTGRES_DB: ncafedb
