@@ -37,7 +37,6 @@ services:
 
   db:
     image: postgres:17
-    profiles: [ "with-db" ]
     container_name: woohyuk-db
     environment:
       POSTGRES_DB: ncafedb
