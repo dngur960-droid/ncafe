@@ -26,4 +26,4 @@ Thumbs.db
 /data/
 
 # 업로드 파일
-/backend/upload/
+# /backend/upload/

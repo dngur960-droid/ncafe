@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/me").authenticated()
                 .requestMatchers("/api/menus/**", "/api/categories/**").permitAll()
                 .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/upload/**").permitAll()
+                .requestMatchers("/upload/**", "/images/**").permitAll()
                 .requestMatchers("/", "/static/**", "/favicon.ico", "/error").permitAll()
                 .anyRequest().permitAll() // 임시로 나머지도 허용 (개발 편의를 위해)
             )
