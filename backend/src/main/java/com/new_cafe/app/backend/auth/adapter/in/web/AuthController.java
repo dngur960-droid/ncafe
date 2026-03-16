@@ -114,6 +114,28 @@ public class AuthController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+    @GetMapping("/debug_users")
+    public ResponseEntity<java.util.List<java.util.Map<String, Object>>> debugUsers(
+            @org.springframework.beans.factory.annotation.Autowired javax.sql.DataSource dataSource) {
+        java.util.List<java.util.Map<String, Object>> users = new java.util.ArrayList<>();
+        try (java.sql.Connection conn = dataSource.getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users");
+             java.sql.ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                java.util.Map<String, Object> map = new java.util.HashMap<>();
+                map.put("id", rs.getLong("id"));
+                map.put("username", rs.getString("username"));
+                map.put("password_hash", rs.getString("password_hash"));
+                map.put("role", rs.getString("role"));
+                users.add(map);
+            }
+        } catch (Exception e) {
+            java.util.Map<String, Object> error = new java.util.HashMap<>();
+            error.put("error", e.getMessage());
+            users.add(error);
+        }
+        return ResponseEntity.ok(users);
+    }
 }
 
 class RegisterRequest {
