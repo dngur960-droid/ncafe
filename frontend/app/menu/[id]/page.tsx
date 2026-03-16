@@ -14,7 +14,7 @@ interface MenuDetail {
     description: string;
     price: number;
     categoryName: string;
-    imageSrc: string;
+    images?: { srcUrl: string }[];
     isAvailable: boolean;
     isSoldOut: boolean;
 }
@@ -70,9 +70,9 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                     )}
 
                     <div className={styles.imageSection}>
-                        {menu.imageSrc ? (
+                        {menu.images?.[0]?.srcUrl ? (
                             <Image
-                                src={`/images/${menu.imageSrc}`}
+                                src={`/images/${menu.images[0].srcUrl}`}
                                 alt={menu.korName}
                                 fill
                                 className={styles.image}
