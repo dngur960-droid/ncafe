@@ -70,4 +70,12 @@ public class OrderController {
     public ResponseEntity<Order> updateStatus(@PathVariable Long id, @RequestParam String status) {
         return ResponseEntity.ok(orderUseCase.updateOrderStatus(id, status));
     }
+
+    /**
+     * 토스페이먼츠 결제 승인 확인
+     */
+    @PostMapping("/orders/confirm")
+    public ResponseEntity<Order> confirmPayment(@RequestBody com.new_cafe.app.backend.order.application.dto.PaymentConfirmRequest request) {
+        return ResponseEntity.ok(orderUseCase.confirmTossPayment(request));
+    }
 }

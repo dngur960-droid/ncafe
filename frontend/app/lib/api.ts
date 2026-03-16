@@ -72,5 +72,11 @@ export const orderAPI = {
             body: JSON.stringify(orderData),
         }),
 
+    confirmPayment: (paymentData: any) =>
+        fetchAPI('/orders/confirm', {
+            method: 'POST',
+            body: JSON.stringify(paymentData),
+        }),
+
     getOrder: (id: number) => fetchAPI(`/orders/${id}`),
 };

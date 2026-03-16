@@ -4,14 +4,16 @@ import { useCart } from '../_context/CartContext';
 import styles from './cart.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { Trash2, Plus, Minus, ArrowLeft, ShoppingBag, CheckCircle, CreditCard, Wallet, Truck } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Trash2, Plus, Minus, ArrowLeft, ShoppingBag, CheckCircle, CreditCard, Wallet } from 'lucide-react';
 import { orderAPI } from '../lib/api';
+import { loadTossPayments } from '@tosspayments/payment-sdk';
 
 export default function CartPage() {
     const { items, removeFromCart, updateQuantity, totalAmount, totalItems, clearCart } = useCart();
     const [orderSuccess, setOrderSuccess] = useState<any>(null);
     const [isOrdering, setIsOrdering] = useState(false);
+    const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY || 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
     
     // 주문 폼 상태
     const [formData, setFormData] = useState({
@@ -39,18 +41,36 @@ export default function CartPage() {
                 items: items.map(item => ({
                     menuId: item.id,
                     quantity: item.quantity,
-                    options: '' // 필드 매칭을 위해 빈 값
+                    options: '' 
                 }))
             };
 
             const result = await orderAPI.placeOrder(orderRequest);
-            setOrderSuccess(result);
-            clearCart();
-            window.scrollTo(0, 0);
+            
+            // 토스페이/카드 결제일 경우 토스 결제창 띄우기
+            if (formData.paymentMethod === 'CARD') {
+                const tossPayments = await loadTossPayments(clientKey);
+                // "ORDER-" 접두사를 붙여서 문자열로 만듦
+                const tossOrderIdStr = `ORDER-${result.id}`; 
+                
+                await tossPayments.requestPayment('카드', {
+                    amount: totalAmount,
+                    orderId: tossOrderIdStr,
+                    orderName: `${items[0].korName} 외 ${totalItems - 1}건`,
+                    customerName: formData.guestName,
+                    successUrl: window.location.origin + '/checkout/success',
+                    failUrl: window.location.origin + '/checkout/fail',
+                });
+                // Note: The above call redirects the browser. It won't reach the code below unless user cancels.
+            } else {
+                // 현장 결제의 경우 바로 성공 화면으로 표시
+                setOrderSuccess(result);
+                clearCart();
+                window.scrollTo(0, 0);
+            }
         } catch (error) {
             console.error('Order failed:', error);
             alert('주문에 실패했어요.. 잠시 후 다시 시도해주세요! 😭');
-        } finally {
             setIsOrdering(false);
         }
     };

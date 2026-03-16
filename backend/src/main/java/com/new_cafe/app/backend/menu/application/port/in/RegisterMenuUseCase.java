@@ -1,8 +1,11 @@
 package com.new_cafe.app.backend.menu.application.port.in;
 
+import lombok.Getter;
+
 /**
  * [Inbound Port] 메뉴 생성 커맨드
  */
+@Getter
 public class RegisterMenuUseCase {
     private final String korName;
     private final String engName;
@@ -14,7 +17,7 @@ public class RegisterMenuUseCase {
     private final Integer sortOrder;
 
     public RegisterMenuUseCase(String korName, String engName, String description,
-                             Integer price, Long categoryId, Boolean isAvailable, Boolean isSoldOut, Integer sortOrder) {
+            Integer price, Long categoryId, Boolean isAvailable, Boolean isSoldOut, Integer sortOrder) {
         this.korName = korName;
         this.engName = engName;
         this.description = description;
@@ -25,12 +28,35 @@ public class RegisterMenuUseCase {
         this.sortOrder = sortOrder;
     }
 
-    public String getKorName() { return korName; }
-    public String getEngName() { return engName; }
-    public String getDescription() { return description; }
-    public Integer getPrice() { return price; }
-    public Long getCategoryId() { return categoryId; }
-    public Boolean getIsAvailable() { return isAvailable; }
-    public Boolean getIsSoldOut() { return isSoldOut; }
-    public Integer getSortOrder() { return sortOrder; }
+    public String getKorName() {
+        return korName;
+    }
+
+    public String getEngName() {
+        return engName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public Boolean getIsAvailable() {
+        return isAvailable;
+    }
+
+    public Boolean getIsSoldOut() {
+        return isSoldOut;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
 }

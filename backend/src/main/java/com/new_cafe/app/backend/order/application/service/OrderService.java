@@ -9,6 +9,13 @@ import com.new_cafe.app.backend.order.domain.model.Order;
 import com.new_cafe.app.backend.order.domain.model.OrderItem;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,10 +29,15 @@ public class OrderService implements OrderUseCase {
 
     private final OrderPort orderPort;
     private final LoadMenuPort loadMenuPort;
+    private final RestTemplate restTemplate;
+
+    @Value("${toss.secret-key}")
+    private String tossSecretKey;
 
     public OrderService(OrderPort orderPort, LoadMenuPort loadMenuPort) {
         this.orderPort = orderPort;
         this.loadMenuPort = loadMenuPort;
+        this.restTemplate = new RestTemplate();
     }
 
     @Override
@@ -83,5 +95,38 @@ public class OrderService implements OrderUseCase {
     @Override
     public Order cancelOrder(Long orderId) {
         return updateOrderStatus(orderId, "CANCELLED");
+    }
+
+    @Override
+    public Order confirmTossPayment(com.new_cafe.app.backend.order.application.dto.PaymentConfirmRequest request) {
+        // 1. 주문 검증
+        // Toss Payments orderId는 내부적으로 Long id를 넘겼다고 가정하고 파싱
+        Long orderId = Long.parseLong(request.getOrderId().replace("ORDER-", ""));
+        Order order = getOrder(orderId);
+        
+        // 2. 토스 승인 API 호출
+        String url = "https://api.tosspayments.com/v1/payments/confirm";
+        HttpHeaders headers = new HttpHeaders();
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((tossSecretKey + ":").getBytes(StandardCharsets.UTF_8));
+        headers.set("Authorization", authHeader);
+        headers.set("Content-Type", "application/json");
+
+        String requestBody = String.format("{\"paymentKey\":\"%s\",\"orderId\":\"%s\",\"amount\":%d}", 
+            request.getPaymentKey(), request.getOrderId(), request.getAmount());
+
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+        
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                order.setStatus("PAID");
+                order.setPaymentStatus("PAID");
+                return orderPort.save(order);
+            } else {
+                throw new RuntimeException("결제 승인 실패: " + response.getBody());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("결제 승인 중 오류 발생: " + e.getMessage());
+        }
     }
 }
