@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/login", "/api/auth/logout", "/api/auth/register").permitAll()
                 .requestMatchers("/api/auth/me").authenticated()
                 .requestMatchers("/api/menus/**", "/api/categories/**").permitAll()
+                .requestMatchers("/api/orders/**").permitAll() // 주문 관련 요청 허용
                 .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/upload/**", "/images/**").permitAll()
                 .requestMatchers("/", "/static/**", "/favicon.ico", "/error").permitAll()
