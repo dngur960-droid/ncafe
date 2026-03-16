@@ -41,8 +41,16 @@ CREATE TABLE IF NOT EXISTS menu_images (
 );
 
 -- =============================================
--- 샘플 데이터 (멱등성 보장)
+-- 샘플 데이터 (초기화 및 중복 제거 멱등성 보장)
 -- =============================================
+
+-- 라이브 DB 공간에 잘못 쌓인 중복 데이터를 삭제하기 위해 강제 TRUNCATE 수행 (새로운 배포 시 깨끗하게 덮어쓰기)
+TRUNCATE TABLE order_items, menu_images, menus CASCADE;
+TRUNCATE TABLE categories CASCADE;
+
+ALTER SEQUENCE categories_id_seq RESTART WITH 1;
+ALTER SEQUENCE menus_id_seq RESTART WITH 1;
+ALTER SEQUENCE menu_images_id_seq RESTART WITH 1;
 
 INSERT INTO categories (name) VALUES 
     ('커피'), ('음료'), ('티'), ('디저트'), ('베이커리'), ('샌드위치')
