@@ -86,58 +86,58 @@ export default function RagPlaygroundPage() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto pb-24 animate-in fade-in duration-700">
+        <div className="max-w-5xl mx-auto pb-24 animate-in fade-in duration-500">
             {/* 헤더 섹션 */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 border-b border-stone-200 pb-4 gap-6">
                 <div>
-                    <div className="flex items-center gap-2 mb-3">
-                        <span className="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest">Experimental</span>
-                        <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">지식 플레이그라운드</h1>
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="bg-orange-50 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-widest border border-orange-100">Experimental</span>
+                        <h1 className="text-2xl font-bold text-stone-800">지식 플레이그라운드</h1>
                     </div>
-                    <p className="text-gray-500 text-lg">사내 문서(RAG)와 실시간 웹(Google Search)을 결합한 하이브리드 AI 에이전트입니다.</p>
+                    <p className="text-stone-500 text-sm md:text-base">사내 문서(RAG)와 실시간 웹(Google)을 결합한 하이브리드 AI 에이전트입니다.</p>
                 </div>
                 
-                <div className="flex bg-gray-100/80 p-1.5 rounded-2xl border border-gray-200 backdrop-blur-sm">
+                <div className="flex bg-stone-50 p-1 rounded-xl border border-stone-200">
                     <button
                         onClick={() => setMode("ask")}
-                        className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${mode === 'ask' ? 'bg-white text-orange-600 shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${mode === 'ask' ? 'bg-white text-orange-600 shadow-sm border border-stone-100' : 'text-stone-500 hover:text-stone-700'}`}
                     >
-                        <MessageSquare size={18} /> AI 에이전트
+                        <MessageSquare size={16} /> AI 답변
                     </button>
                     <button
                         onClick={() => setMode("search")}
-                        className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${mode === 'search' ? 'bg-white text-orange-600 shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${mode === 'search' ? 'bg-white text-orange-600 shadow-sm border border-stone-100' : 'text-stone-500 hover:text-stone-700'}`}
                     >
-                        <Search size={18} /> 지식 검색
+                        <Search size={16} /> 지식 검색
                     </button>
                 </div>
             </div>
 
             {/* 검색창 섹션 */}
-            <div className={`relative bg-white rounded-[2.5rem] shadow-2xl transition-all duration-500 border-2 ${isLoading ? 'border-orange-200' : 'border-gray-50'}`}>
-                <form onSubmit={handleAsk} className="p-3 flex items-center gap-3">
+            <div className={`relative bg-white rounded-2xl shadow-sm transition-all duration-300 border ${isLoading ? 'border-orange-200 ring-2 ring-orange-50' : 'border-stone-200 group-hover:border-stone-300'}`}>
+                <form onSubmit={handleAsk} className="p-2 flex items-center gap-2">
                     <div className="flex-1 relative">
                         <input
                             type="text"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder={mode === 'ask' ? "지식베이스나 웹 검색에 대해 물어보세요..." : "유사한 지식 조각을 찾을 키워드를 입력하세요..."}
-                            className="w-full border-none p-6 pl-16 rounded-[2rem] text-xl focus:ring-0 bg-transparent placeholder-gray-300 font-medium text-gray-800"
+                            className="w-full border-none p-4 pl-12 rounded-xl text-sm md:text-base focus:ring-0 bg-transparent placeholder-stone-400 font-medium text-stone-800"
                         />
-                        <div className={`absolute left-7 top-1/2 -translate-y-1/2 transition-colors ${isLoading ? 'text-orange-500' : 'text-gray-400'}`}>
-                            {mode === 'ask' ? <Sparkles size={28} /> : <Search size={28} />}
+                        <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${isLoading ? 'text-orange-500' : 'text-stone-400'}`}>
+                            {mode === 'ask' ? <Sparkles size={20} /> : <Search size={20} />}
                         </div>
                     </div>
 
                     <button
                         type="submit"
                         disabled={isLoading || !query.trim()}
-                        className="bg-gray-900 hover:bg-orange-600 text-white p-5 rounded-[1.75rem] transition-all active:scale-95 disabled:opacity-30 disabled:grayscale shadow-xl hover:shadow-orange-200 group"
+                        className="bg-stone-800 hover:bg-orange-500 text-white p-3 rounded-xl transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed group"
                     >
                         {isLoading ? (
-                            <div className="w-8 h-8 border-3 border-white/20 border-t-white rounded-full animate-spin"></div>
+                            <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
                         ) : (
-                            <ChevronRight size={32} className="group-hover:translate-x-0.5 transition-transform" />
+                            <ChevronRight size={24} className="group-hover:translate-x-0.5 transition-transform" />
                         )}
                     </button>
                 </form>
@@ -160,31 +160,31 @@ export default function RagPlaygroundPage() {
                 <div className="mt-16 space-y-12 animate-in fade-in slide-in-from-bottom-6 duration-1000">
                     {/* 도구 실행 로그 */}
                     {toolLogs && toolLogs.length > 0 && (
-                        <section className="bg-gray-900 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-10 opacity-10">
-                                <Search className="text-white" size={120} />
+                        <section className="bg-stone-800 rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-8 opacity-5">
+                                <Search className="text-white" size={100} />
                             </div>
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center text-white">
+                                <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white">
                                     <Clock size={16} />
                                 </div>
-                                <h4 className="text-lg font-bold text-white">에이전트 실행 로그 (Tool Activity)</h4>
+                                <h4 className="text-base font-bold text-white">에이전트 실행 로그 (Tool Activity)</h4>
                             </div>
-                            <div className="space-y-4">
+                            <div className="space-y-3">
                                 {toolLogs.map((log: ToolLog, idx: number) => (
-                                    <div key={idx} className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between group hover:bg-white/10 transition-colors">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-orange-400 font-mono text-xs">
+                                    <div key={idx} className="bg-stone-700/50 border border-stone-600/50 p-4 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 group hover:bg-stone-700 transition-colors">
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-10 h-10 shrink-0 bg-stone-900/50 rounded-lg flex items-center justify-center text-orange-400 font-mono text-[10px] font-bold">
                                                 CALL
                                             </div>
                                             <div>
-                                                <p className="text-white font-bold">{log.tool}({JSON.stringify(log.args)})</p>
-                                                <p className="text-gray-500 text-xs mt-1">AI가 정확한 판단을 위해 내부 도구를 호출했습니다.</p>
+                                                <p className="text-stone-100 font-bold text-sm md:text-base break-all">{log.tool}({JSON.stringify(log.args)})</p>
+                                                <p className="text-stone-400 text-xs mt-1">AI 툴백엔드 호출 이력</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                            <div className="h-0.5 w-8 bg-white/10"></div>
-                                            <div className="bg-orange-600/20 text-orange-400 px-4 py-2 rounded-xl text-sm font-black border border-orange-600/30">
+                                        <div className="flex items-center gap-2 md:gap-3 shrink-0 ml-14 md:ml-0">
+                                            <div className="hidden md:block h-0.5 w-6 bg-stone-600"></div>
+                                            <div className="bg-orange-900/30 text-orange-300 px-3 py-1.5 rounded-lg text-xs font-semibold border border-orange-800/50 truncate max-w-[200px] md:max-w-xs">
                                                 RESULT: {log.result}
                                             </div>
                                         </div>
@@ -194,20 +194,20 @@ export default function RagPlaygroundPage() {
                         </section>
                     )}
 
-                    <section>
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-12 h-12 bg-black text-white rounded-2xl flex items-center justify-center shadow-2xl">
-                                <Sparkles size={24} fill="white" />
+                    <section className="pt-6">
+                        <div className="flex items-center gap-3 mb-4 pl-2">
+                            <div className="w-10 h-10 bg-stone-100 text-stone-800 rounded-xl flex items-center justify-center border border-stone-200">
+                                <Sparkles size={20} />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-black text-gray-900 tracking-tight">AI 에이전트 인텔리전스</h3>
-                                <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Hybrid Knowledge Integration</p>
+                                <h3 className="text-xl font-bold text-stone-800">AI 에이전트 답변</h3>
+                                <p className="text-[10px] text-stone-400 font-semibold uppercase tracking-widest">Hybrid Knowledge Analysis</p>
                             </div>
                         </div>
                         
-                        <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-xl shadow-gray-200/50 relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-100/30 blur-[100px] -translate-y-1/2 translate-x-1/2 rounded-full"></div>
-                            <div className="relative text-gray-800 leading-[1.8] text-xl whitespace-pre-wrap font-medium">
+                        <div className="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-orange-50 blur-[80px] -translate-y-1/2 translate-x-1/2 rounded-full"></div>
+                            <div className="relative text-stone-700 leading-relaxed text-sm md:text-base whitespace-pre-wrap font-medium">
                                 {answer}
                             </div>
                         </div>
@@ -243,74 +243,65 @@ export default function RagPlaygroundPage() {
 
             {/* 지식 근거 리스트 */}
             {results !== null && (
-                <div className={`mt-20 animate-in fade-in slide-in-from-bottom-8 duration-700 ${answer ? 'delay-500' : ''}`}>
-                    <div className="flex items-center justify-between mb-8 border-b border-gray-50 pb-6">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center">
-                                <BookOpen size={20} />
-                            </div>
-                            <h3 className="text-2xl font-bold text-gray-900">
+                <div className={`mt-16 animate-in fade-in slide-in-from-bottom-8 duration-700 ${answer ? 'delay-200' : ''}`}>
+                    <div className="flex justify-between items-center mb-6 pl-2">
+                        <div className="flex items-center gap-2">
+                            <BookOpen size={18} className="text-orange-500" />
+                            <h3 className="text-lg font-bold text-stone-800">
                                 {mode === 'ask' ? '지식베이스 인용' : '유사 문서 매칭'}
                             </h3>
                         </div>
-                        <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl text-xs font-bold text-gray-400 border border-gray-100">
-                            <Filter size={14} />
-                            MATCHED NODES: {results.length}
+                        <div className="flex items-center gap-1.5 bg-stone-50 px-3 py-1 rounded-md text-[10px] font-bold text-stone-500 border border-stone-200 tracking-widest">
+                            <Filter size={12} />
+                            MATCHED: {results.length}
                         </div>
                     </div>
 
                     {results.length === 0 ? (
-                        <div className="text-center bg-gray-50 py-32 rounded-[3.5rem] border-4 border-dashed border-gray-100">
-                            <div className="w-24 h-24 bg-white rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 text-gray-200 shadow-inner">
-                                <BookOpen size={48} />
+                        <div className="text-center bg-stone-50 py-20 rounded-3xl border border-dashed border-stone-200">
+                            <div className="w-16 h-16 bg-white rounded-2xl flex justify-center items-center shadow-sm border border-stone-100 mx-auto mb-4 text-stone-300">
+                                <BookOpen size={32} />
                             </div>
-                            <p className="text-xl font-bold text-gray-400">학습된 지식베이스에서 정보를 찾지 못했습니다.</p>
-                            <p className="text-gray-400 mt-2">이 경우 AI는 웹 검색 결과를 바탕으로 답변을 구성합니다.</p>
+                            <p className="text-base font-semibold text-stone-500">지식베이스에서 정보를 찾지 못했습니다.</p>
+                            <p className="text-sm text-stone-400 mt-1">이 경우 AI는 웹 검색 결과를 추가로 활용합니다.</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 gap-8">
+                        <div className="grid grid-cols-1 gap-6">
                             {results.map((item: SearchResult, index: number) => (
                                 <div 
                                     key={item.chunk_id} 
-                                    className="group bg-white p-8 rounded-[2.5rem] border border-gray-50 shadow-sm hover:shadow-2xl hover:border-orange-100 transition-all duration-500 overflow-hidden relative"
+                                    className="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm hover:shadow-md hover:border-orange-200 transition-all overflow-hidden relative"
                                 >
-                                    <div className="absolute top-0 right-0 p-8 opacity-[0.02] -rotate-12 translate-x-4 -translate-y-4 group-hover:rotate-0 group-hover:scale-125 transition-all duration-700">
-                                        <BookOpen size={160} />
+                                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center font-bold text-sm shadow-inner shrink-0 border border-orange-100">
+                                                {String(index + 1).padStart(2, '0')}
+                                            </div>
+                                            <div className="overflow-hidden">
+                                                <h4 className="text-base font-bold text-stone-800 truncate max-w-sm">{item.filename}</h4>
+                                                <div className="flex items-center gap-2 text-[10px] text-stone-400 mt-1 uppercase font-semibold">
+                                                    <span>Chunk #{item.chunk_index}</span>
+                                                    <span className="w-1 h-1 bg-stone-200 rounded-full"></span>
+                                                    <span>Ref: {item.chunk_id}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-3 bg-stone-50 px-3 py-2 rounded-lg border border-stone-100 self-start md:self-auto shrink-0">
+                                            <div className="w-24 h-1.5 bg-stone-200 rounded-full overflow-hidden">
+                                                <div 
+                                                    className="h-full bg-orange-500 rounded-full" 
+                                                    style={{ width: `${item.similarity * 100}%` }}
+                                                ></div>
+                                            </div>
+                                            <span className="text-[10px] font-bold text-orange-600 min-w-[32px] text-right">
+                                                {(item.similarity * 100).toFixed(1)}%
+                                            </span>
+                                        </div>
                                     </div>
-                                    
-                                    <div className="relative">
-                                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-6">
-                                            <div className="flex items-center gap-5">
-                                                <div className="w-16 h-16 bg-gray-50 group-hover:bg-orange-600 group-hover:text-white text-gray-300 rounded-3xl flex items-center justify-center font-black text-2xl transition-all duration-300 shadow-inner">
-                                                    {(index + 1).toString().padStart(2, '0')}
-                                                </div>
-                                                <div>
-                                                    <h4 className="text-xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors">{item.filename}</h4>
-                                                    <div className="flex items-center gap-4 text-[11px] text-gray-400 mt-1.5 font-bold uppercase tracking-wider">
-                                                        <span className="flex items-center gap-1.5"><Clock size={14} className="text-orange-300" /> Chunk #{item.chunk_index}</span>
-                                                        <span className="w-1.5 h-1.5 bg-gray-100 rounded-full"></span>
-                                                        <span>ID: {item.chunk_id}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                            <div className="flex flex-col items-end gap-2 bg-gray-50/50 p-4 rounded-2xl border border-gray-50">
-                                                <div className="flex items-center gap-3">
-                                                    <span className="text-sm font-black text-orange-600 italic">{(item.similarity * 100).toFixed(1)}%</span>
-                                                    <div className="w-32 h-2.5 bg-gray-200 rounded-full overflow-hidden shadow-inner">
-                                                        <div 
-                                                            className="h-full bg-gradient-to-r from-orange-400 to-orange-600 rounded-full shadow-lg transition-all duration-1000 ease-out" 
-                                                            style={{ width: `${item.similarity * 100}%` }}
-                                                        ></div>
-                                                    </div>
-                                                </div>
-                                                <span className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em]">Context Relevance</span>
-                                            </div>
-                                        </div>
-
-                                        <div className="bg-gray-50 p-8 rounded-[2rem] text-gray-700 text-lg leading-relaxed group-hover:bg-orange-50/30 transition-colors border-l-[6px] border-orange-200 font-medium">
-                                            "{item.content}"
-                                        </div>
+                                    <div className="bg-stone-50/50 p-5 rounded-2xl text-stone-600 text-sm md:text-base leading-relaxed border-l-4 border-orange-200 font-medium">
+                                        {item.content}
                                     </div>
                                 </div>
                             ))}

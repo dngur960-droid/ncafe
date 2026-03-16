@@ -94,33 +94,33 @@ export default function RagDocumentsPage() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto pb-20 animate-in fade-in duration-700">
-            <div className="flex justify-between items-end mb-10">
+        <div className="max-w-6xl mx-auto pb-20 animate-in fade-in duration-500">
+            <div className="flex justify-between items-end mb-8 border-b border-stone-200 pb-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">📁 RAG 지식베이스 관리</h1>
-                    <p className="text-gray-500">AI가 학습할 문서를 업로드하고 가공 상태를 모니터링합니다.</p>
+                    <h1 className="text-2xl font-bold text-stone-800 mb-1">지식베이스 (RAG) 관리</h1>
+                    <p className="text-stone-500 text-sm md:text-base">AI가 학습할 문서를 업로드하고 가공 상태를 모니터링합니다.</p>
                 </div>
-                <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-2xl shadow-sm border border-gray-100">
+                <div className="hidden md:flex items-center gap-2 bg-stone-50 px-3 py-1.5 rounded-full border border-stone-200">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-bold text-gray-600">FastAPI 엔진 연결됨</span>
+                    <span className="text-xs font-semibold text-stone-600">FastAPI 연결됨</span>
                 </div>
             </div>
 
             {/* 업로드 카드 */}
-            <div className="bg-white p-8 rounded-[2rem] shadow-xl shadow-gray-200/50 border border-gray-100 mb-12 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-5">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-orange-100 mb-10 relative overflow-hidden transition-shadow hover:shadow-md">
+                <div className="absolute top-0 right-0 p-8 opacity-[0.03]">
                     <Upload size={120} />
                 </div>
                 
                 <div className="relative">
-                    <div className="mb-8">
-                        <h2 className="text-xl font-bold text-gray-800 mb-1">새로운 지식 등록</h2>
-                        <p className="text-gray-400 text-sm">PDF, DOCX, TXT 형식을 지원합니다.</p>
+                    <div className="mb-6">
+                        <h2 className="text-xl font-bold text-stone-800 mb-1">새로운 지식 등록</h2>
+                        <p className="text-stone-500 text-sm">PDF, DOCX, TXT 형식을 지원합니다.</p>
                     </div>
                     
-                    <form onSubmit={handleUpload} className="flex flex-col md:flex-row gap-4">
+                    <form onSubmit={handleUpload} className="flex flex-col md:flex-row gap-4 align-stretch">
                         <div className="flex-1 group">
-                            <label className="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-200 hover:border-orange-400 hover:bg-orange-50/30 rounded-2xl p-6 transition-all cursor-pointer h-full">
+                            <label className="relative flex flex-col items-center justify-center border-2 border-dashed border-stone-200 hover:border-orange-400 hover:bg-orange-50/50 rounded-2xl p-5 transition-all cursor-pointer h-full min-h-[5rem]">
                                 <input
                                     type="file"
                                     onChange={(e) => setFile(e.target.files?.[0] || null)}
@@ -128,11 +128,11 @@ export default function RagDocumentsPage() {
                                     className="absolute inset-0 opacity-0 cursor-pointer"
                                     required
                                 />
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-gray-50 text-gray-400 group-hover:bg-orange-100 group-hover:text-orange-600 rounded-xl flex items-center justify-center transition-colors">
-                                        <Upload size={24} />
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-stone-50 text-stone-400 group-hover:bg-orange-100 group-hover:text-orange-600 rounded-xl flex items-center justify-center transition-colors">
+                                        <Upload size={20} />
                                     </div>
-                                    <span className="text-gray-600 font-medium truncate max-w-[200px]">
+                                    <span className="text-stone-600 font-medium truncate max-w-[200px] text-sm md:text-base">
                                         {file ? file.name : "파일을 선택하거나 드래그하세요"}
                                     </span>
                                 </div>
@@ -142,16 +142,16 @@ export default function RagDocumentsPage() {
                         <button
                             type="submit"
                             disabled={isLoading || !file}
-                            className="bg-orange-600 hover:bg-orange-700 text-white px-10 py-5 rounded-2xl font-bold shadow-lg shadow-orange-200 disabled:opacity-50 transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-3"
+                            className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-bold shadow-sm shadow-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2 h-full min-h-[5rem]"
                         >
                             {isLoading ? (
                                 <>
-                                    <RefreshCw size={20} className="animate-spin" />
-                                    <span>분석 및 임베딩 중...</span>
+                                    <RefreshCw size={18} className="animate-spin" />
+                                    <span>처리 중...</span>
                                 </>
                             ) : (
                                 <>
-                                    <FilePlusIcon size={20} />
+                                    <FilePlusIcon size={18} />
                                     <span>지식 추가하기</span>
                                 </>
                             )}
@@ -161,19 +161,19 @@ export default function RagDocumentsPage() {
             </div>
 
             {/* 문서 리스트 섹션 */}
-            <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-8 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
-                    <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                        <FileText size={20} className="text-orange-600" />
+            <div className="bg-white rounded-3xl shadow-sm border border-stone-200 overflow-hidden">
+                <div className="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50/50">
+                    <h3 className="text-base font-bold text-stone-800 flex items-center gap-2">
+                        <FileText size={18} className="text-orange-500" />
                         학습된 문서 목록
                     </h3>
-                    <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest px-3 py-1 bg-white rounded-full border border-gray-100">
-                            Total: {documents.length}
+                    <div className="flex items-center gap-3">
+                        <span className="text-xs font-semibold text-stone-500 bg-white px-2.5 py-1 rounded-md border border-stone-200">
+                            총 {documents.length}건
                         </span>
                         <button 
                             onClick={() => fetchDocuments(true)}
-                            className="p-2 hover:bg-white rounded-lg transition-colors text-gray-400 hover:text-orange-600"
+                            className="p-1.5 hover:bg-stone-200 rounded-md transition-colors text-stone-400 hover:text-stone-700"
                         >
                             <RefreshCw size={16} className={isFetching ? "animate-spin" : ""} />
                         </button>
@@ -183,75 +183,75 @@ export default function RagDocumentsPage() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="bg-white">
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-tighter">문서 정보</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-tighter text-center">지식 조각</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-tighter text-center">가공 상태</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-tighter">등록일</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-tighter text-right">관리</th>
+                            <tr className="bg-white border-b border-stone-100">
+                                <th className="p-4 text-xs font-semibold text-stone-500 bg-stone-50/30">문서명</th>
+                                <th className="p-4 text-xs font-semibold text-stone-500 bg-stone-50/30 text-center">지식 청크</th>
+                                <th className="p-4 text-xs font-semibold text-stone-500 bg-stone-50/30 text-center">진행 상태</th>
+                                <th className="p-4 text-xs font-semibold text-stone-500 bg-stone-50/30 hidden md:table-cell">등록일시</th>
+                                <th className="p-4 text-xs font-semibold text-stone-500 bg-stone-50/30 text-right">편집</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-50">
+                        <tbody className="divide-y divide-stone-100">
                             {documents.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="py-24 text-center">
-                                        <div className="flex flex-col items-center gap-4 opacity-20">
-                                            <FileText size={64} />
-                                            <p className="text-xl font-bold">등록된 문서가 없습니다.</p>
+                                    <td colSpan={5} className="py-20 text-center">
+                                        <div className="flex flex-col items-center gap-3 text-stone-300">
+                                            <FileText size={48} strokeWidth={1.5} />
+                                            <p className="text-sm font-medium text-stone-500">등록된 문서가 없습니다.</p>
                                         </div>
                                     </td>
                                 </tr>
                             ) : (
                                 documents.map((doc) => (
-                                    <tr key={doc.id} className="hover:bg-orange-50/20 transition-colors group">
-                                        <td className="p-6">
-                                            <div className="flex items-center gap-4">
-                                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-sm font-bold shadow-sm border
-                                                    ${doc.file_type === 'pdf' ? 'bg-red-50 text-red-600 border-red-100' : 
-                                                      doc.file_type === 'txt' ? 'bg-blue-50 text-blue-600 border-blue-100' : 
-                                                      'bg-emerald-50 text-emerald-600 border-emerald-100'}`}>
-                                                    <FileType size={20} />
+                                    <tr key={doc.id} className="hover:bg-stone-50/80 transition-colors group">
+                                        <td className="p-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold border
+                                                    ${doc.file_type === 'pdf' ? 'bg-red-50 text-red-500 border-red-100' : 
+                                                      doc.file_type === 'txt' ? 'bg-blue-50 text-blue-500 border-blue-100' : 
+                                                      'bg-emerald-50 text-emerald-500 border-emerald-100'}`}>
+                                                    <FileType size={18} />
                                                 </div>
-                                                <div>
-                                                    <div className="font-bold text-gray-800 group-hover:text-orange-600 transition-colors">{doc.filename}</div>
-                                                    <div className="text-xs text-gray-400 font-mono uppercase tracking-tighter">{doc.file_type} format</div>
+                                                <div className="overflow-hidden">
+                                                    <div className="font-semibold text-stone-700 text-sm truncate max-w-[200px] md:max-w-none group-hover:text-orange-600 transition-colors">{doc.filename}</div>
+                                                    <div className="text-[11px] text-stone-400 font-medium uppercase mt-0.5">{doc.file_type} format</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="p-6 text-center">
-                                            <span className="font-mono font-bold text-gray-700 bg-gray-100 px-4 py-1.5 rounded-xl border border-gray-200">
+                                        <td className="p-4 text-center">
+                                            <span className="font-mono font-semibold text-stone-600 bg-stone-100 px-3 py-1 rounded-md text-sm border border-stone-200">
                                                 {doc.chunk_count.toLocaleString()}
                                             </span>
                                         </td>
-                                        <td className="p-6 text-center">
+                                        <td className="p-4 text-center">
                                             {doc.status === 'completed' ? (
-                                                <div className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-bold border border-emerald-100">
-                                                    <CheckCircle size={14} />
-                                                    학습 완료
+                                                <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 px-2.5 py-1 rounded-md text-xs font-semibold border border-green-200">
+                                                    <CheckCircle size={12} />
+                                                    완료됨
                                                 </div>
                                             ) : doc.status === 'processing' ? (
-                                                <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-xs font-bold border border-blue-100 animate-pulse">
-                                                    <RefreshCw size={14} className="animate-spin" />
-                                                    가공 중
+                                                <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 px-2.5 py-1 rounded-md text-xs font-semibold border border-blue-200 animate-pulse">
+                                                    <RefreshCw size={12} className="animate-spin" />
+                                                    처리 중
                                                 </div>
                                             ) : (
-                                                <div className="inline-flex items-center gap-1.5 bg-red-50 text-red-700 px-3 py-1.5 rounded-full text-xs font-bold border border-red-100">
-                                                    <AlertCircle size={14} />
-                                                    처리 실패
+                                                <div className="inline-flex items-center gap-1.5 bg-red-50 text-red-600 px-2.5 py-1 rounded-md text-xs font-semibold border border-red-200">
+                                                    <AlertCircle size={12} />
+                                                    실패
                                                 </div>
                                             )}
                                         </td>
-                                        <td className="p-6">
-                                            <div className="text-sm font-medium text-gray-600">{new Date(doc.created_at).toLocaleDateString()}</div>
-                                            <div className="text-[10px] text-gray-400">{new Date(doc.created_at).toLocaleTimeString()}</div>
+                                        <td className="p-4 hidden md:table-cell">
+                                            <div className="text-sm text-stone-600">{new Date(doc.created_at).toLocaleDateString()}</div>
+                                            <div className="text-xs text-stone-400 mt-0.5">{new Date(doc.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
                                         </td>
-                                        <td className="p-6 text-right">
+                                        <td className="p-4 text-right">
                                             <button
                                                 onClick={() => handleDelete(doc.id)}
-                                                className="w-10 h-10 flex items-center justify-center text-gray-300 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
-                                                title="문서 삭제"
+                                                className="w-8 h-8 inline-flex items-center justify-center text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                                title="삭제"
                                             >
-                                                <Trash2 size={20} />
+                                                <Trash2 size={16} />
                                             </button>
                                         </td>
                                     </tr>
