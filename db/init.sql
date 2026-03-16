@@ -53,8 +53,7 @@ ALTER SEQUENCE menus_id_seq RESTART WITH 1;
 ALTER SEQUENCE menu_images_id_seq RESTART WITH 1;
 
 INSERT INTO categories (name) VALUES 
-    ('커피'), ('음료'), ('티'), ('디저트'), ('베이커리'), ('샌드위치')
-ON CONFLICT (name) DO NOTHING;
+    ('커피'), ('음료'), ('티'), ('디저트'), ('베이커리'), ('샌드위치');
 
 INSERT INTO menus (kor_name, eng_name, description, price, category_id, is_available, sort_order) VALUES
     ('아메리카노', 'Americano', '아메리카노의 깊고 진한 맛을 느껴보세요.', 4500, 1, TRUE, 1),
@@ -90,8 +89,7 @@ INSERT INTO menus (kor_name, eng_name, description, price, category_id, is_avail
     ('햄치즈 샌드위치', 'Ham Cheese Sandwich', '햄치즈 샌드위치의 깊고 진한 맛을 느껴보세요.', 6000, 6, TRUE, 31),
     ('참치 샌드위치', 'Tuna Sandwich', '참치 샌드위치의 깊고 진한 맛을 느껴보세요.', 6500, 6, TRUE, 32),
     ('터키 샌드위치', 'Turkey Sandwich', '터키 샌드위치의 깊고 진한 맛을 느껴보세요.', 7000, 6, TRUE, 33),
-    ('스크램블 에그 샌드위치', 'Egg Sandwich', '스크램블 에그 샌드위치의 깊고 진한 맛을 느껴보세요.', 6500, 6, TRUE, 34)
-ON CONFLICT (kor_name) DO UPDATE SET price = EXCLUDED.price, eng_name = EXCLUDED.eng_name, description = EXCLUDED.description, is_available = EXCLUDED.is_available, sort_order = EXCLUDED.sort_order;
+    ('스크램블 에그 샌드위치', 'Egg Sandwich', '스크램블 에그 샌드위치의 깊고 진한 맛을 느껴보세요.', 6500, 6, TRUE, 34);
 
 INSERT INTO menu_images (menu_id, src_url, sort_order) VALUES
     (1, 'americano.png', 1),
