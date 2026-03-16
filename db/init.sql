@@ -14,13 +14,13 @@ CREATE TABLE IF NOT EXISTS users (
 -- 카테고리 테이블
 CREATE TABLE IF NOT EXISTS categories (
     id   BIGSERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) UNIQUE NOT NULL
 );
 
 -- 메뉴 테이블
 CREATE TABLE IF NOT EXISTS menus (
     id           BIGSERIAL PRIMARY KEY,
-    kor_name     VARCHAR(200) NOT NULL,
+    kor_name     VARCHAR(200) UNIQUE NOT NULL,
     eng_name     VARCHAR(200),
     description  TEXT,
     price        INTEGER,
@@ -35,48 +35,131 @@ CREATE TABLE IF NOT EXISTS menus (
 CREATE TABLE IF NOT EXISTS menu_images (
     id         BIGSERIAL PRIMARY KEY,
     menu_id    BIGINT REFERENCES menus(id) ON DELETE CASCADE,
-    src_url    VARCHAR(500),
+    src_url    VARCHAR(500) UNIQUE,
     sort_order INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- =============================================
--- 샘플 데이터
+-- 샘플 데이터 (멱등성 보장)
 -- =============================================
 
-INSERT INTO categories (name) VALUES
-    ('커피'),
-    ('음료'),
-    ('티'),
-    ('디저트'),
-    ('베이커리')
-ON CONFLICT DO NOTHING;
+INSERT INTO categories (name) VALUES 
+    ('커피'), ('음료'), ('티'), ('디저트'), ('베이커리'), ('샌드위치')
+ON CONFLICT (name) DO NOTHING;
 
-INSERT INTO menus (kor_name, eng_name, description, price, category_id, is_available, sort_order, created_at, updated_at) VALUES
-    ('아메리카노',     'Americano',         '진한 에스프레소와 물의 완벽한 조화. 깔끔하고 깊은 맛을 느낄 수 있습니다.',   4500, 1, TRUE, 1, NOW(), NOW()),
-    ('카페 라떼',     'Cafe Latte',        '부드러운 우유와 에스프레소의 조화. 고소하고 부드러운 맛이 특징입니다.',        5000, 1, TRUE, 2, NOW(), NOW()),
-    ('카푸치노',      'Cappuccino',        '풍성한 우유 거품과 에스프레소의 조화. 부드럽고 크리미한 맛을 즐기세요.',       5500, 1, FALSE,3, NOW(), NOW()),
-    ('바닐라 라떼',   'Vanilla Latte',     '달콤한 바닐라 시럽과 에스프레소, 우유의 조화.',                        5500, 1, TRUE, 4, NOW(), NOW()),
-    ('카라멜 마끼아또','Caramel Macchiato', '달콤한 카라멜과 에스프레소, 우유의 환상적인 조화.',                     6000, 1, TRUE, 5, NOW(), NOW()),
-    ('딸기 스무디',   'Strawberry Smoothie','신선한 딸기로 만든 달콤하고 상큼한 스무디.',                          6000, 2, TRUE, 1, NOW(), NOW()),
-    ('레몬에이드',    'Lemonade',          '상큼한 레몬과 탄산수의 청량한 만남.',                                5500, 2, TRUE, 2, NOW(), NOW()),
-    ('얼그레이',     'Earl Grey',         '베르가못 향이 은은하게 퍼지는 클래식 홍차.',                           5000, 3, TRUE, 1, NOW(), NOW()),
-    ('티라미수',     'Tiramisu',          '에스프레소에 적신 스펀지와 마스카포네 크림의 이탈리안 디저트.',               7000, 4, TRUE, 1, NOW(), NOW()),
-    ('크루아상',     'Croissant',         '바삭하고 버터향 가득한 프랑스 정통 크루아상.',                           4000, 5, TRUE, 1, NOW(), NOW())
-ON CONFLICT DO NOTHING;
+INSERT INTO menus (kor_name, eng_name, description, price, category_id, is_available, sort_order) VALUES
+    ('아메리카노', 'Americano', '아메리카노의 깊고 진한 맛을 느껴보세요.', 4500, 1, TRUE, 1),
+    ('카페 라떼', 'Cafe Latte', '카페 라떼의 깊고 진한 맛을 느껴보세요.', 5000, 1, TRUE, 2),
+    ('카푸치노', 'Cappuccino', '카푸치노의 깊고 진한 맛을 느껴보세요.', 5500, 1, TRUE, 3),
+    ('바닐라 라떼', 'Vanilla Latte', '바닐라 라떼의 깊고 진한 맛을 느껴보세요.', 5500, 1, TRUE, 4),
+    ('카라멜 마끼아또', 'Caramel Macchiato', '카라멜 마끼아또의 깊고 진한 맛을 느껴보세요.', 6000, 1, TRUE, 5),
+    ('에스프레소', 'Espresso', '에스프레소의 깊고 진한 맛을 느껴보세요.', 4000, 1, TRUE, 6),
+    ('플랫화이트', 'Flat White', '플랫화이트의 깊고 진한 맛을 느껴보세요.', 5000, 1, TRUE, 7),
+    ('헤이즐넛 라떼', 'Hazelnut Latte', '헤이즐넛 라떼의 깊고 진한 맛을 느껴보세요.', 5500, 1, TRUE, 8),
+    ('마끼아또', 'Macchiato', '마끼아또의 깊고 진한 맛을 느껴보세요.', 5500, 1, TRUE, 9),
+    ('라떼', 'Latte', '라떼의 깊고 진한 맛을 느껴보세요.', 5000, 1, TRUE, 10),
+    ('시그니처 로스터리', 'Signature', '시그니처 로스터리의 깊고 진한 맛을 느껴보세요.', 6500, 1, TRUE, 11),
+    ('초코 라떼', 'Chocolate Latte', '초코 라떼의 깊고 진한 맛을 느껴보세요.', 5500, 2, TRUE, 12),
+    ('녹차 라떼', 'Green Tea Latte', '녹차 라떼의 깊고 진한 맛을 느껴보세요.', 5500, 2, TRUE, 13),
+    ('바나나 라떼', 'Banana Latte', '바나나 라떼의 깊고 진한 맛을 느껴보세요.', 5500, 2, TRUE, 14),
+    ('딸기 스무디', 'Strawberry Smoothie', '딸기 스무디의 깊고 진한 맛을 느껴보세요.', 6000, 2, TRUE, 15),
+    ('프라푸치노', 'Frappuccino', '프라푸치노의 깊고 진한 맛을 느껴보세요.', 6500, 2, TRUE, 16),
+    ('레몬에이드', 'Lemonade', '레몬에이드의 깊고 진한 맛을 느껴보세요.', 5500, 2, TRUE, 17),
+    ('아이스티', 'Iced Tea', '아이스티의 깊고 진한 맛을 느껴보세요.', 4500, 3, TRUE, 18),
+    ('얼그레이', 'Earl Grey', '얼그레이의 깊고 진한 맛을 느껴보세요.', 5000, 3, TRUE, 19),
+    ('티라미수', 'Tiramisu', '티라미수의 깊고 진한 맛을 느껴보세요.', 7000, 4, TRUE, 20),
+    ('딸기 케이크', 'Strawberry Cake', '딸기 케이크의 깊고 진한 맛을 느껴보세요.', 7500, 4, TRUE, 21),
+    ('초코 무스', 'Chocolate Mousse', '초코 무스의 깊고 진한 맛을 느껴보세요.', 7000, 4, TRUE, 22),
+    ('아몬드 쿠키', 'Almond Cookie', '아몬드 쿠키의 깊고 진한 맛을 느껴보세요.', 3500, 5, TRUE, 23),
+    ('버터 쿠키', 'Butter Cookie', '버터 쿠키의 깊고 진한 맛을 느껴보세요.', 3000, 5, TRUE, 24),
+    ('초코칩 쿠키', 'Choco Chip Cookie', '초코칩 쿠키의 깊고 진한 맛을 느껴보세요.', 3500, 5, TRUE, 25),
+    ('두바이 쫀득 쿠키', 'Dubai Cookie', '두바이 쫀득 쿠키의 깊고 진한 맛을 느껴보세요.', 4500, 5, TRUE, 26),
+    ('두바이 쿠키 오리지널', 'Dubai Original', '두바이 쿠키 오리지널의 깊고 진한 맛을 느껴보세요.', 4500, 5, TRUE, 27),
+    ('초코 크루아상', 'Choco Croissant', '초코 크루아상의 깊고 진한 맛을 느껴보세요.', 4800, 5, TRUE, 28),
+    ('베이글 & 크림치즈', 'Bagel & Cream', '베이글 & 크림치즈의 깊고 진한 맛을 느껴보세요.', 4500, 5, TRUE, 29),
+    ('비프 베이글', 'Beef Bagel', '비프 베이글의 깊고 진한 맛을 느껴보세요.', 6500, 6, TRUE, 30),
+    ('햄치즈 샌드위치', 'Ham Cheese Sandwich', '햄치즈 샌드위치의 깊고 진한 맛을 느껴보세요.', 6000, 6, TRUE, 31),
+    ('참치 샌드위치', 'Tuna Sandwich', '참치 샌드위치의 깊고 진한 맛을 느껴보세요.', 6500, 6, TRUE, 32),
+    ('터키 샌드위치', 'Turkey Sandwich', '터키 샌드위치의 깊고 진한 맛을 느껴보세요.', 7000, 6, TRUE, 33),
+    ('스크램블 에그 샌드위치', 'Egg Sandwich', '스크램블 에그 샌드위치의 깊고 진한 맛을 느껴보세요.', 6500, 6, TRUE, 34)
+ON CONFLICT (kor_name) DO UPDATE SET price = EXCLUDED.price, eng_name = EXCLUDED.eng_name, description = EXCLUDED.description, is_available = EXCLUDED.is_available, sort_order = EXCLUDED.sort_order;
 
-DELETE FROM menu_images WHERE menu_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 INSERT INTO menu_images (menu_id, src_url, sort_order) VALUES
     (1, 'americano.png', 1),
+    (1, 'americano1.png', 2),
+    (1, 'americano copy.png', 3),
+    (1, 'americano1 copy.png', 4),
     (2, 'cafelatte.png', 1),
+    (2, 'cafelatte1.png', 2),
+    (2, 'cafelatte copy.png', 3),
     (3, 'capuchino.png', 1),
+    (3, 'capuchino1.png', 2),
+    (3, 'capuchino copy.png', 3),
     (4, 'vanilla-latte.png', 1),
     (5, 'caramel-macchiato.png', 1),
-    (6, 'strawberrysmoothie.png', 1),
-    (7, 'lemonade.png', 1),
-    (8, 'earl-grey.png', 1),
-    (9, 'tiramisu.png', 1),
-    (10, 'chocolate-croissant.png', 1);
+    (5, 'caramel-macchiato1.png', 2),
+    (6, 'espresso.png', 1),
+    (6, 'espresso1.png', 2),
+    (6, 'espresso copy.png', 3),
+    (7, 'flatwhite.png', 1),
+    (8, 'hazelnutlatte.png', 1),
+    (9, 'macchiato.png', 1),
+    (9, 'caramel-macchiato.png', 2),
+    (9, 'caramel-macchiato1.png', 3),
+    (10, 'latte.png', 1),
+    (10, 'cafelatte.png', 2),
+    (10, 'cafelatte1.png', 3),
+    (10, 'bananalatte.png', 4),
+    (10, 'bananalatte1.png', 5),
+    (10, 'hazelnutlatte.png', 6),
+    (10, 'vanilla-latte.png', 7),
+    (10, 'greentealatte.png', 8),
+    (10, 'chocolatelatte.png', 9),
+    (10, 'cafelatte copy.png', 10),
+    (10, 'bananalatte copy.png', 11),
+    (11, 'signature.png', 1),
+    (11, 'signature1.png', 2),
+    (12, 'chocolatelatte.png', 1),
+    (13, 'greentealatte.png', 1),
+    (14, 'bananalatte.png', 1),
+    (14, 'bananalatte1.png', 2),
+    (14, 'bananalatte copy.png', 3),
+    (15, 'strawberrysmoothie.png', 1),
+    (16, 'frappuccino.png', 1),
+    (17, 'lemonade.png', 1),
+    (18, 'icedtea.png', 1),
+    (19, 'earl-grey.png', 1),
+    (20, 'tiramisu.png', 1),
+    (21, 'strawberry-cake.png', 1),
+    (21, 'strawberry-cake1.png', 2),
+    (22, 'chocolate-mousse.png', 1),
+    (22, 'chocolate-mousse1.png', 2),
+    (23, 'almond-cookie.png', 1),
+    (23, 'almond-cookie1.png', 2),
+    (24, 'butter-cookie.png', 1),
+    (24, 'butter-cookie1.png', 2),
+    (25, 'choco-chip-cookie.png', 1),
+    (25, 'choco-chip-cookie1.png', 2),
+    (25, 'choco-chip-cookie1 copy.png', 3),
+    (26, 'dubai-zzondeuk-cookie.png', 1),
+    (26, 'dubai-zzondeuk-cookie1.png', 2),
+    (27, 'DubaiZzondeukCookie.png', 1),
+    (28, 'chocolate-croissant.png', 1),
+    (28, 'chocolate-croissant1.png', 2),
+    (29, 'bagel-cream-cheese.png', 1),
+    (29, 'bagel-cream-cheese1.png', 2),
+    (30, 'beef-bagel.png', 1),
+    (30, 'beef-bagel1.png', 2),
+    (31, 'ham-cheese-sandwich.png', 1),
+    (31, 'ham-cheese-sandwich1.png', 2),
+    (32, 'tuna-sandwich.png', 1),
+    (32, 'tuna-sandwich1.png', 2),
+    (33, 'turkey-sandwich.png', 1),
+    (33, 'turkey-sandwich1.png', 2),
+    (34, 'scrambled-egg-sandwich.png', 1),
+    (34, 'scrambled-egg-sandwich1.png', 2)
+ON CONFLICT (src_url) DO UPDATE SET sort_order = EXCLUDED.sort_order;
 
 -- 주문 테이블 (비회원 주문 허용: user_id NULLABLE)
 CREATE TABLE IF NOT EXISTS orders (
