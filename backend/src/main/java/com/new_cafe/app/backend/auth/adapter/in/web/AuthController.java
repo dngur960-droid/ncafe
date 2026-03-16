@@ -31,13 +31,16 @@ public class AuthController {
     private final LoginUseCase loginUseCase;
     private final ParseTokenUseCase parseTokenUseCase;
     private final com.new_cafe.app.backend.auth.application.port.in.RegisterUseCase registerUseCase;
+    private final javax.sql.DataSource dataSource;
 
     public AuthController(LoginUseCase loginUseCase, 
                           ParseTokenUseCase parseTokenUseCase,
-                          com.new_cafe.app.backend.auth.application.port.in.RegisterUseCase registerUseCase) {
+                          com.new_cafe.app.backend.auth.application.port.in.RegisterUseCase registerUseCase,
+                          javax.sql.DataSource dataSource) {
         this.loginUseCase = loginUseCase;
         this.parseTokenUseCase = parseTokenUseCase;
         this.registerUseCase = registerUseCase;
+        this.dataSource = dataSource;
     }
 
     /**
@@ -115,8 +118,7 @@ public class AuthController {
         }
     }
     @GetMapping("/debug_users")
-    public ResponseEntity<java.util.List<java.util.Map<String, Object>>> debugUsers(
-            @org.springframework.beans.factory.annotation.Autowired javax.sql.DataSource dataSource) {
+    public ResponseEntity<java.util.List<java.util.Map<String, Object>>> debugUsers() {
         java.util.List<java.util.Map<String, Object>> users = new java.util.ArrayList<>();
         try (java.sql.Connection conn = dataSource.getConnection();
              java.sql.PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users");
