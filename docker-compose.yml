@@ -5,8 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: woohyuk-backend
-    expose:
-      - "8029"
+    ports:
+      - "8029:8029"
     volumes:
       - ./backend/upload:/app/upload
     environment:
@@ -20,32 +20,32 @@ services:
     depends_on:
       - db
 
-  local-proxy:
-    image: nginx:alpine
-    container_name: woohyuk-local-proxy
-    ports:
-      - "${FRONTEND_PORT:-3029}:80"
-      - "${BACKEND_PORT:-8029}:81"
-    volumes:
-      - ./local-proxy.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - frontend
-      - backend
-    restart: unless-stopped
-
   frontend:
     image: ${FRONTEND_IMAGE:-ncafe-frontend:latest}
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: woohyuk-frontend
-    expose:
-      - "3001"
+    ports:
+      - "3029:3001"
     environment:
       - API_BASE_URL=http://backend:8029
+      - RAG_API_BASE_URL=http://agent:8000
       - SESSION_SECRET=${SESSION_SECRET:-woohyuk_ncafe_secret_key_32_chars_long!!}
     depends_on:
       - backend
+      - agent
+    restart: unless-stopped
+
+  agent:
+    build:
+      context: ./ai-agent
+      dockerfile: Dockerfile
+    container_name: woohyuk-agent
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./ai-agent/.env
     restart: unless-stopped
 
   db:
