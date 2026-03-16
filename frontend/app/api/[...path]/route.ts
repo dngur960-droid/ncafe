@@ -53,6 +53,7 @@ export async function proxyRequest(req: NextRequest) {
         method: req.method,
         headers,
         body,
+        cache: 'no-store',
     });
 
     // 401 응답 시 세션 삭제 (JWT 만료)
