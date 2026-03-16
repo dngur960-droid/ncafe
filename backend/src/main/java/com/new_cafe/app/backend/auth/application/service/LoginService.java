@@ -33,7 +33,7 @@ public class LoginService implements LoginUseCase {
 
         // 2. 유저 존재 여부 확인
         if (userOptional.isEmpty()) {
-            throw new RuntimeException("존재하지 않는 사용자입니다.");
+            throw new RuntimeException("존재하지 않는 사용자입니다.: " + command.getUsername());
         }
 
         User user = userOptional.get();

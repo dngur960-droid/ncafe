@@ -4,7 +4,15 @@ import { getSession } from '@/app/lib/session';
 const API_BASE = process.env.API_BASE_URL || 'http://localhost:8029';
 
 export async function POST(req: NextRequest) {
-    const body = await req.json();
+    const rawText = await req.text();
+    console.log(`[Auth Login Proxy] Received raw text from client: ${rawText}`);
+    
+    let body;
+    try {
+        body = JSON.parse(rawText);
+    } catch (e) {
+        body = {};
+    }
 
     // 1. Spring Boot 로그인 API 호출 (서버 -> 서버)
     const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
