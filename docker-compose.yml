@@ -15,7 +15,7 @@ services:
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:postgresql://db:5432/ncafedb}
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-ncafe}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-new_ibm2}
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-woohyuk_ncafe_backend_jwt_secret_key_needs_to_be_at_least_32_bytes_long}
     restart: unless-stopped
     depends_on:
       - db

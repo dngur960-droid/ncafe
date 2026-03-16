@@ -20,6 +20,7 @@ jobs:
           echo "FRONTEND_PORT=${FRONTEND_PORT:-3029}" >> .env
           echo "DB_PORT=${DB_PORT:-5429}" >> .env
           echo "SESSION_SECRET=${SESSION_SECRET:-woohyuk_ncafe_secret_key_32_chars_long!!}" >> .env
+          echo "JWT_SECRET=${JWT_SECRET:-woohyuk_ncafe_backend_jwt_secret_key_needs_to_be_at_least_32_bytes_long}" >> .env
         env:
           COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
           USER_ID: ${{ secrets.USER_ID }}
@@ -27,6 +28,7 @@ jobs:
           FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
           DB_PORT: ${{ secrets.DB_PORT }}
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       - name: Build and Deploy
         run: docker compose --profile with-db up --build -d
