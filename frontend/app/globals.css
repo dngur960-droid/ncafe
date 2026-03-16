@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ===========================================
    NCafe Design System
    커피 테마 디자인 시스템
