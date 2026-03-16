@@ -30,7 +30,7 @@ export function useMenus(selectedCategory: number | undefined, searchQuery: stri
     useEffect(() => {
         const fetchMenus = async () => {
 
-            const url = new URL(`/api/admin/menus`, window.location.origin);
+            const url = new URL(`/api/menus`, window.location.origin);
 
             const params = url.searchParams;
             if (selectedCategory) {
@@ -41,7 +41,9 @@ export function useMenus(selectedCategory: number | undefined, searchQuery: stri
             }
 
             try {
-                const response = await fetch(url.toString());
+                const response = await fetch(url.toString(), {
+                    cache: 'no-store',
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch menus');
                 }

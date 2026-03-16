@@ -20,7 +20,9 @@ export function useCategories() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('/api/admin/categories');
+                const response = await fetch('/api/categories', {
+                    cache: 'no-store',
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch categories');
                 }
