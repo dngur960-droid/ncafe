@@ -1,0 +1,386 @@
+.container {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+
+.pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-gray-200);
+    padding-bottom: 1rem;
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--color-gray-500);
+}
+
+.statusBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-gray-50);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-gray-200);
+}
+
+.statusIndicator {
+    width: 0.5rem;
+    height: 0.5rem;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.statusText {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.uploadCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--color-gray-200);
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.sectionSubtitle {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: 1.5rem;
+}
+
+.uploadForm {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+@media (max-width: 768px) {
+    .uploadForm {
+        flex-direction: column;
+    }
+}
+
+.fileInputLabel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--color-gray-300);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 5rem;
+}
+
+.fileInputLabel:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-50);
+}
+
+.fileInputContent {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.fileInputIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--color-gray-100);
+    color: var(--color-gray-500);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.fileInputLabel:hover .fileInputIcon {
+    background: var(--color-primary-100);
+    color: var(--color-primary);
+}
+
+.fileName {
+    color: var(--color-gray-700);
+    font-weight: 500;
+}
+
+.uploadButton {
+    background: var(--color-gray-900);
+    color: white;
+    padding: 0 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.uploadButton:hover:not(:disabled) {
+    background: var(--color-primary);
+}
+
+.uploadButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.listCard {
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid var(--color-gray-200);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.listHeader {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-gray-100);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-gray-50);
+}
+
+.listTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.listActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.totalCount {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-gray-500);
+    background: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--color-gray-200);
+}
+
+.refreshButton {
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    color: var(--color-gray-400);
+    background: transparent;
+    border: none;
+    transition: all 0.2s;
+}
+
+.refreshButton:hover {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.table th {
+    padding: 1rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-500);
+    border-bottom: 1px solid var(--color-gray-100);
+    background: white;
+}
+
+.table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table tr.dataRow:hover {
+    background: var(--color-primary-50);
+}
+
+.emptyState {
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--color-gray-400);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.docInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.docIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid;
+}
+
+.pdfIcon {
+    background: #fef2f2;
+    color: #ef4444;
+    border-color: #fee2e2;
+}
+
+.txtIcon {
+    background: #eff6ff;
+    color: #3b82f6;
+    border-color: #dbeafe;
+}
+
+.defaultIcon {
+    background: #ecfdf5;
+    color: #10b981;
+    border-color: #d1fae5;
+}
+
+.docName {
+    font-weight: 600;
+    color: var(--color-gray-900);
+    font-size: 0.875rem;
+}
+
+.docFormat {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+}
+
+.chunkBadge {
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    background: var(--color-gray-100);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    border: 1px solid var(--color-gray-200);
+}
+
+.statusCompleted {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #ecfdf5;
+    color: #047857;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid #d1fae5;
+}
+
+.statusProcessing {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid #dbeafe;
+    animation: pulse 2s infinite;
+}
+
+.statusFailed {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #fef2f2;
+    color: #b91c1c;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid #fee2e2;
+}
+
+.dateText {
+    font-size: 0.875rem;
+    color: var(--color-gray-700);
+}
+
+.timeText {
+    font-size: 0.75rem;
+    color: var(--color-gray-400);
+    margin-top: 0.125rem;
+}
+
+.deleteBtn {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-400);
+    background: transparent;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deleteBtn:hover {
+    color: #ef4444;
+    background: #fef2f2;
+}
