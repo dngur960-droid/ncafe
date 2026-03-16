@@ -65,6 +65,19 @@ INSERT INTO menus (kor_name, eng_name, description, price, category_id, is_avail
     ('크루아상',     'Croissant',         '바삭하고 버터향 가득한 프랑스 정통 크루아상.',                           4000, 5, TRUE, 1, NOW(), NOW())
 ON CONFLICT DO NOTHING;
 
+DELETE FROM menu_images WHERE menu_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+INSERT INTO menu_images (menu_id, src_url, sort_order) VALUES
+    (1, 'americano.png', 1),
+    (2, 'cafelatte.png', 1),
+    (3, 'capuchino.png', 1),
+    (4, 'vanilla-latte.png', 1),
+    (5, 'caramel-macchiato.png', 1),
+    (6, 'strawberrysmoothie.png', 1),
+    (7, 'lemonade.png', 1),
+    (8, 'earl-grey.png', 1),
+    (9, 'tiramisu.png', 1),
+    (10, 'chocolate-croissant.png', 1);
+
 -- 주문 테이블 (비회원 주문 허용: user_id NULLABLE)
 CREATE TABLE IF NOT EXISTS orders (
     id              BIGSERIAL PRIMARY KEY,
