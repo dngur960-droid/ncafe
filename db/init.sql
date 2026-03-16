@@ -164,8 +164,7 @@ INSERT INTO menu_images (menu_id, src_url, sort_order) VALUES
     (33, 'turkey-sandwich.png', 1),
     (33, 'turkey-sandwich1.png', 2),
     (34, 'scrambled-egg-sandwich.png', 1),
-    (34, 'scrambled-egg-sandwich1.png', 2)
-ON CONFLICT (src_url) DO UPDATE SET sort_order = EXCLUDED.sort_order;
+    (34, 'scrambled-egg-sandwich1.png', 2);
 
 -- 주문 테이블 (비회원 주문 허용: user_id NULLABLE)
 CREATE TABLE IF NOT EXISTS orders (
