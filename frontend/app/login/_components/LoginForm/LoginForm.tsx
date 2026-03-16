@@ -84,13 +84,13 @@ export default function LoginForm() {
                 // 절대 경로가 아님을 보장하여 보안 유지
                 const safePath = redirectParams.startsWith('/') ? redirectParams : '/';
                 toast.success('로그인에 성공했습니다!');
-                router.push(safePath);
-            } else if (user?.role === 'ADMIN') {
+                window.location.href = safePath;
+            } else if (user?.role === 'ADMIN' || user?.role === 'ROLE_ADMIN') {
                 toast.success('관리자로 로그인했습니다!');
-                router.push('/admin');
+                window.location.href = '/admin';
             } else {
                 toast.success('로그인에 성공했습니다!');
-                router.push('/');
+                window.location.href = '/';
             }
 
         } catch (err: any) {

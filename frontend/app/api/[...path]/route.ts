@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/app/lib/session';
 
+export const dynamic = 'force-dynamic';
+
 export async function proxyRequest(req: NextRequest) {
     const session = await getSession();
 
@@ -11,11 +13,11 @@ export async function proxyRequest(req: NextRequest) {
         ? (process.env.RAG_API_BASE_URL || 'http://172.27.76.25:8000') 
         : (process.env.API_BASE_URL || 'http://backend:8029');
 
-    // ★ 수정: 메뉴 이미지 요청인 경우 /api/images를 완전히 떼고 백엔드 루트에서 찾도록 함
-    // 백엔드는 ./upload/ 폴더를 루트(/)로 서빙하고 있기 때문입니다.
+    // ★ 수정: 메뉴 이미지 요청인 경우 /api/images를 /images로만 바꾸어서 백엔드로 전달
+    // 백엔드의 WebConfig는 /images/** 경로에 대해 file:upload/ 디렉토리를 서빙합니다.
     let targetPath = req.nextUrl.pathname;
     if (!isRagRequest && targetPath.startsWith('/api/images')) {
-        targetPath = targetPath.replace(/^\/api\/images/, '');
+        targetPath = targetPath.replace(/^\/api\/images/, '/images');
     }
     
     const targetUrl = `${targetBase}${targetPath}${search}`;
@@ -43,6 +45,7 @@ export async function proxyRequest(req: NextRequest) {
             body = await req.blob();
         } else {
             body = await req.text();
+            console.log(`[Proxy] Read body text: ${body}`);
         }
     }
 
