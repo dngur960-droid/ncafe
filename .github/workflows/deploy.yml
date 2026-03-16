@@ -39,6 +39,9 @@ jobs:
           docker compose ps
           echo "=== Initialize DB Schema ==="
           docker exec -i woohyuk-db psql -U ncafe -d ncafedb < db/init.sql || echo "DB init already done or skipped"
+          echo "=== Restart Backend for Data Initialization ==="
+          docker compose restart backend
+          sleep 10
           docker logs woohyuk-backend --tail 50
           echo "=== Database Users ==="
           docker exec woohyuk-db psql -U ncafe -d ncafedb -c "SELECT * FROM users;" || echo "Failed to query DB"
