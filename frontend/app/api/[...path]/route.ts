@@ -20,6 +20,12 @@ export async function proxyRequest(req: NextRequest) {
         targetPath = targetPath.replace(/^\/api\/images/, '/images');
     }
     
+    // ★ 수정: 프록시(local-proxy.conf)의 rewrite /api/$1 규칙 때문에
+    // /api/api/... 처럼 중복되는 경로가 생기는 현상 방지
+    if (targetPath.startsWith('/api/api/')) {
+        targetPath = targetPath.replace(/^\/api\/api\//, '/api/');
+    }
+
     const targetUrl = `${targetBase}${targetPath}${search}`;
 
     console.log(`[Proxy] ${req.method} ${req.nextUrl.pathname} -> ${targetUrl} (RAG: ${isRagRequest})`);
