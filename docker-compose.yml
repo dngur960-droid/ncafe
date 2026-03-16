@@ -5,8 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: woohyuk-backend
-    ports:
-      - "8029:8029"
+    expose:
+      - "8029"
     volumes:
       - ./upload:/app/upload
     environment:
@@ -25,6 +25,7 @@ services:
     container_name: woohyuk-local-proxy
     ports:
       - "${FRONTEND_PORT:-3029}:80"
+      - "${BACKEND_PORT:-8029}:81"
     volumes:
       - ./local-proxy.conf:/etc/nginx/conf.d/default.conf
     depends_on:
