@@ -37,7 +37,10 @@ jobs:
         run: |
           echo "=== Container Status ==="
           docker compose ps
-          sleep 15
+          echo "=== Backend Logs ==="
+          docker logs woohyuk-backend --tail 50
+          echo "=== Database Users ==="
+          docker exec woohyuk-db psql -U ncafe -d ncafedb -c "SELECT * FROM users;" || echo "Failed to query DB"
           echo ""
           echo "=== Health Check ==="
           curl -sf --max-time 10 -o /dev/null -w "Backend  : HTTP %{http_code}\n" http://localhost:${BACKEND_PORT:-8029} || echo "Backend  : not responding"
