@@ -21,6 +21,8 @@ jobs:
           echo "DB_PORT=${DB_PORT:-5429}" >> .env
           echo "SESSION_SECRET=${SESSION_SECRET:-woohyuk_ncafe_secret_key_32_chars_long!!}" >> .env
           echo "JWT_SECRET=${JWT_SECRET:-woohyuk_ncafe_backend_jwt_secret_key_needs_to_be_at_least_32_bytes_long}" >> .env
+          mkdir -p ai-agent
+          echo "GEMINI_API_KEY=${GEMINI_API_KEY:-}" > ai-agent/.env
         env:
           COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
           USER_ID: ${{ secrets.USER_ID }}
@@ -29,6 +31,7 @@ jobs:
           DB_PORT: ${{ secrets.DB_PORT }}
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       - name: Build and Deploy
         run: docker compose --profile with-db up --build -d
