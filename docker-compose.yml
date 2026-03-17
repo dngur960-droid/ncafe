@@ -41,7 +41,7 @@ services:
     build:
       context: ./ai-agent
       dockerfile: Dockerfile
-    container_name: woohyuk-agent
+    container_name: woohyuk-agent-server
     ports:
       - "8000:8000"
     env_file:
